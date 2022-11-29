@@ -1,5 +1,4 @@
 import React, { ReactElement } from 'react';
-import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 
 // constants
 import { CurrentViewOptions, CurrentViewOptionStrings } from '../../common/constants/constants';
