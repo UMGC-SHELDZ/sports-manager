@@ -5,7 +5,7 @@ export enum CurrentViewOptions {
     SPORT = 'SPORT'
 }
 
-// To use with enum to display on the BreadcrumbBar
+// To use with enum to display on the HeaderBar
 const CurrentViewOptionStrings: { [key: string]: string} = {
     MANAGER: 'Current Manager',
     TEAM: 'Active Team',

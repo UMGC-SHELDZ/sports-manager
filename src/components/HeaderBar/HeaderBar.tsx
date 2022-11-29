@@ -4,42 +4,38 @@ import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 // constants
 import { CurrentViewOptions, CurrentViewOptionStrings } from '../../common/constants/constants';
 
-interface IBreadcrumbBarProps {
+interface IHeaderBarProps {
     curViewOption: CurrentViewOptions;
     sportName?: string;
     teamName?: string;
     managerName?: string;
 }
 
-function BreadcrumbBar({ curViewOption, sportName, teamName, managerName}: IBreadcrumbBarProps): ReactElement {
+function HeaderBar({ curViewOption, sportName, teamName, managerName}: IHeaderBarProps): ReactElement {
     /**
      * Constructs a breadcrumb item based on props
      * @returns {string} Constructed breadrumbitem string
      */
-    const renderBreadcrumbItemData = (): string => {
+    const renderHeader = (): ReactElement => {
         // Option for Sport
         if (curViewOption === CurrentViewOptions.SPORT) {
-            return `${CurrentViewOptionStrings[CurrentViewOptions.SPORT]}: ${sportName}`;
+            return <h3><strong>{CurrentViewOptionStrings[CurrentViewOptions.SPORT]}:</strong> {sportName}</h3>;
         }
 
         // Option for team
         if (curViewOption === CurrentViewOptions.TEAM) {
-            return `${CurrentViewOptionStrings[CurrentViewOptions.TEAM]}: ${teamName}, ${CurrentViewOptionStrings[CurrentViewOptions.MANAGER]}: ${managerName}`
+            return <h3><strong>{CurrentViewOptionStrings[CurrentViewOptions.TEAM]}:</strong> {teamName}, <strong>{CurrentViewOptionStrings[CurrentViewOptions.MANAGER]}:</strong> {managerName}</h3>
         }
 
         // Implicitly return manager view
-        return 'Manager View'
+        return <h3>Manager View</h3>;
     }
 
     return (
-        <>
-            <Breadcrumb>
-                <BreadcrumbItem active>
-                    {renderBreadcrumbItemData()}
-                </BreadcrumbItem>
-            </Breadcrumb>
-        </>
+        <div className='header-bar'>
+            {renderHeader()}
+        </div>
     )
 }
 
-export default BreadcrumbBar;
+export default HeaderBar;
