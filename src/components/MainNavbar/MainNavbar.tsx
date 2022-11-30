@@ -1,5 +1,5 @@
-import React, { ReactElement, useState } from 'react';
-import { Collapse, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink, UncontrolledDropdown } from 'reactstrap';
+import React, { ReactElement } from 'react';
+import { Nav, Navbar, NavbarBrand, NavItem, NavLink } from 'reactstrap';
 
 function MainNavbar(): ReactElement {
 
