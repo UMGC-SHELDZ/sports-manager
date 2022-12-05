@@ -5,4 +5,5 @@ export default interface IPlayer {
     position?: string;
     playerNumber?: number;
     salary?: number;
+    id: string;
 }

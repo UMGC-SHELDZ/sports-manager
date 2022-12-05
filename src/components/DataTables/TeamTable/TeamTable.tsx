@@ -17,7 +17,7 @@ function TeamTable({ players }: ITeamTableProps): ReactElement {
             <tbody>
             {_.map(players, (player) => {
                 return (
-                    <tr>
+                    <tr key={player.id}>
                         <th scope='row'>
                             {player.lastName}
                         </th>

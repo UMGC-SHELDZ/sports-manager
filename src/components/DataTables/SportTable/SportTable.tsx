@@ -19,7 +19,7 @@ function SportsTable({ teams }: ISportsTableProps): ReactElement {
             <tbody>
                 {_.map(teams, (team) => {
                     return (
-                        <tr>
+                        <tr key={team.id}>
                             <th scope='row'>
                                 {team.teamName}
                             </th>

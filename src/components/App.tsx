@@ -18,36 +18,42 @@ const mockFootballTeamsData: Array<ITeam> = [
   {
     teamName: 'Sports Team 1',
     managerName: 'Manager 1',
-    numPlayers: 55
+    numPlayers: 55,
+    id: '1'
   },
   {
     teamName: 'Sports Team 2',
     managerName: 'Manager 2',
-    numPlayers: 55
+    numPlayers: 55,
+    id: '2'
   },
   {
     teamName: 'Sports Team 3',
     managerName: 'Manager 3',
-    numPlayers: 54
+    numPlayers: 54,
+    id: '3'
   }
 ]
 
 const mockTeamsPlayersData: Array<IPlayer> = [
   {
     firstName: 'Player',
-    lastName: 'One'
+    lastName: 'One',
+    id: '1'
   },
   {
     firstName: 'Player',
     lastName: 'Two',
     position: 'Position 1',
     playerNumber: 1,
-    salary: 100000
+    salary: 100000,
+    id: '2'
   },
   {
     firstName: 'Player',
     lastName: 'Three',
-    playerNumber: 2
+    playerNumber: 2,
+    id: '3'
   }
 ]
 
