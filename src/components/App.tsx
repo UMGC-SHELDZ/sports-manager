@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // Constants 
 import { CurrentViewOptions } from '../common/constants/constants';
@@ -10,7 +10,9 @@ import ITeam from '../common/interaces/ITeam';
 import HeaderBar from './HeaderBar/HeaderBar';
 import JumbotronHeader from './JumbotronHeader/JumbotronHeader';
 import MainNavbar from './MainNavbar/MainNavbar';
-import SportsTable from './DataTables/SportsTable/SportsTable';
+import SportsTable from './DataTables/SportTable/SportTable';
+import TeamTable from './DataTables/TeamTable/TeamTable';
+import IPlayer from '../common/interaces/IPlayer';
 
 const mockFootballTeamsData: Array<ITeam> = [
   {
@@ -30,13 +32,39 @@ const mockFootballTeamsData: Array<ITeam> = [
   }
 ]
 
+const mockTeamsPlayersData: Array<IPlayer> = [
+  {
+    firstName: 'Player',
+    lastName: 'One'
+  },
+  {
+    firstName: 'Player',
+    lastName: 'Two',
+    position: 'Position 1',
+    playerNumber: 1,
+    salary: 100000
+  },
+  {
+    firstName: 'Player',
+    lastName: 'Three',
+    playerNumber: 2
+  }
+]
+
 function App() {
+  const [currentView, setCurrentView] = useState<CurrentViewOptions>(CurrentViewOptions.SPORT);
+
   return (
     <div className="App">
       <JumbotronHeader />
-      <MainNavbar />
+      <MainNavbar setCurrentView={setCurrentView}/>
       <HeaderBar curViewOption={CurrentViewOptions.SPORT} sportName={'Football'} />
-      <SportsTable teams={mockFootballTeamsData} />
+      {currentView === CurrentViewOptions.SPORT &&
+        <SportsTable teams={mockFootballTeamsData} />
+      }
+      {currentView === CurrentViewOptions.TEAM &&
+        <TeamTable players={mockTeamsPlayersData} />
+      }
     </div>
   );
 }

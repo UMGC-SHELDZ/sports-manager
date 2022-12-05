@@ -63,7 +63,6 @@ function SportsTable({ teams }: ISportsTableProps): ReactElement {
                 </Table>
             )}
         </>
-        
     )
 };
 
