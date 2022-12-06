@@ -3,4 +3,5 @@ export default interface ITeam {
     teamName: string;
     managerName: string;
     numPlayers: number;
+    id: string;
 }
