@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import * as _ from 'lodash';
-import IPlayer from '../../../common/interaces/IPlayer';
+import IPlayer from '../../../common/interfaces/IPlayer';
 import { Row, Table } from 'reactstrap';
 
 interface ITeamTableProps {
@@ -15,28 +15,28 @@ function TeamTable({ players }: ITeamTableProps): ReactElement {
     const RenderTableBody = (): ReactElement => {
         return (
             <tbody>
-            {_.map(players, (player) => {
-                return (
-                    <tr key={player.id}>
-                        <th scope='row'>
-                            {player.lastName}
-                        </th>
-                        <td>
-                            {player.firstName}
-                        </td>
-                        <td>
-                            {!_.isNil(player.position) ? player.position : 'No Position' }
-                        </td>
-                        <td>
-                            {!_.isNil(player.playerNumber) ? player.playerNumber : 'No Number' }
-                        </td>
-                        <td>
-                            {!_.isNil(player.salary) ? player.salary : 'No Salary' }
-                        </td>
-                    </tr>
-                )
-            })}
-        </tbody>
+                {_.map(players, (player) => {
+                    return (
+                        <tr key={player.id}>
+                            <th scope='row'>
+                                {player.lastName}
+                            </th>
+                            <td>
+                                {player.firstName}
+                            </td>
+                            <td>
+                                {!_.isNil(player.position) ? player.position : 'No Position'}
+                            </td>
+                            <td>
+                                {!_.isNil(player.playerNumber) ? player.playerNumber : 'No Number'}
+                            </td>
+                            <td>
+                                {!_.isNil(player.salary) ? player.salary : 'No Salary'}
+                            </td>
+                        </tr>
+                    )
+                })}
+            </tbody>
         );
     };
 

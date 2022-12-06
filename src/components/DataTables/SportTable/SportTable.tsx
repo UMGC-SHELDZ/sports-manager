@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { Row, Table } from 'reactstrap';
 
 // Interfaces
-import ITeam from '../../../common/interaces/ITeam';
+import ITeam from '../../../common/interfaces/ITeam';
 
 interface ISportsTableProps {
     teams: Array<ITeam>;
