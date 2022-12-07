@@ -5,6 +5,7 @@ import { CurrentViewOptions } from '../common/constants/constants';
 
 // Interfaces
 import ITeam from '../common/interfaces/ITeam';
+import IPlayer from '../common/interfaces/IPlayer';
 
 // Custom components
 import HeaderBar from './HeaderBar/HeaderBar';
@@ -12,9 +13,8 @@ import JumbotronHeader from './JumbotronHeader/JumbotronHeader';
 import MainNavbar from './MainNavbar/MainNavbar';
 import SportsTable from './DataTables/SportTable/SportTable';
 import TeamTable from './DataTables/TeamTable/TeamTable';
-import IPlayer from '../common/interfaces/IPlayer';
-import Login from './Login/Login'
-import Sign_up from './Sign_up/Sign_up';
+import LoginForm from './LoginForm/LoginForm';
+import RegistrationForm from './RegistrationForm/RegistrationForm';
 
 
 const mockFootballTeamsData: Array<ITeam> = [
@@ -75,10 +75,10 @@ function App() {
         <TeamTable players={mockTeamsPlayersData} />
       }
       {currentView === CurrentViewOptions.MANAGER &&
-        <Login />
+        <LoginForm />
       }
       {currentView === CurrentViewOptions.SIGN_UP &&
-        <Sign_up />
+        <RegistrationForm />
       }
     </div>
   );
