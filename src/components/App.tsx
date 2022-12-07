@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { CurrentViewOptions } from '../common/constants/constants';
 
 // Interfaces
-import ITeam from '../common/interaces/ITeam';
+import ITeam from '../common/interfaces/ITeam';
 
 // Custom components
 import HeaderBar from './HeaderBar/HeaderBar';
@@ -12,7 +12,10 @@ import JumbotronHeader from './JumbotronHeader/JumbotronHeader';
 import MainNavbar from './MainNavbar/MainNavbar';
 import SportsTable from './DataTables/SportTable/SportTable';
 import TeamTable from './DataTables/TeamTable/TeamTable';
-import IPlayer from '../common/interaces/IPlayer';
+import IPlayer from '../common/interfaces/IPlayer';
+import Login from './Login/Login'
+import Sign_up from './Sign_up/Sign_up';
+
 
 const mockFootballTeamsData: Array<ITeam> = [
   {
@@ -63,13 +66,19 @@ function App() {
   return (
     <div className="App">
       <JumbotronHeader />
-      <MainNavbar setCurrentView={setCurrentView}/>
-      <HeaderBar curViewOption={CurrentViewOptions.SPORT} sportName={'Football'} />
+      <MainNavbar setCurrentView={setCurrentView} />
+      <HeaderBar curViewOption={CurrentViewOptions.SPORT} sportName={'test'} />
       {currentView === CurrentViewOptions.SPORT &&
         <SportsTable teams={mockFootballTeamsData} />
       }
       {currentView === CurrentViewOptions.TEAM &&
         <TeamTable players={mockTeamsPlayersData} />
+      }
+      {currentView === CurrentViewOptions.MANAGER &&
+        <Login />
+      }
+      {currentView === CurrentViewOptions.SIGN_UP &&
+        <Sign_up />
       }
     </div>
   );
