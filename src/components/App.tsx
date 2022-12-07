@@ -7,16 +7,33 @@ import { CurrentViewOptions } from '../common/constants/constants';
 // Interfaces
 import ITeam from '../common/interfaces/ITeam';
 import IPlayer from '../common/interfaces/IPlayer';
+import ISport from '../common/interfaces/ISport';
 
 // Custom components
 import HeaderBar from './HeaderBar/HeaderBar';
 import JumbotronHeader from './JumbotronHeader/JumbotronHeader';
 import MainNavbar from './MainNavbar/MainNavbar';
-import SportsTable from './DataTables/SportTable/SportTable';
-import TeamTable from './DataTables/TeamTable/TeamTable';
+import TeamsTable from './DataTables/TeamsTable/TeamsTable';
+import PlayersTable from './DataTables/PlayersTable/PlayersTable';
 import LoginForm from './LoginForm/LoginForm';
-import RegistrationForm from './RegistrationForm/RegistrationForm';
+import RegistrationForm from './RegistrationForm/RegistrationForm'
+import SportsTable from './DataTables/SportsTable/SportsTable';
+
+// Global State
 import { UserProvider } from '../providers/UserProvider';
+
+const mockSportsData: Array<ISport> = [
+  {
+    sportName: 'Football',
+    id: '1',
+    numTeams: 3
+  },
+  {
+    sportName: 'Soccer',
+    id: '2',
+    numTeams: 2
+  }
+]
 
 const mockFootballTeamsData: Array<ITeam> = [
   {
@@ -71,10 +88,13 @@ function App() {
         <MainNavbar setCurrentView={setCurrentView} />
         <HeaderBar curViewOption={currentView} sportName={'Football'} managerName={'Manager Name'} teamName={'Football Team Name'} />
         {currentView === CurrentViewOptions.SPORT &&
-          <SportsTable teams={mockFootballTeamsData} />
+          <SportsTable sports={mockSportsData} />
         }
         {currentView === CurrentViewOptions.TEAM &&
-          <TeamTable players={mockTeamsPlayersData} />
+          <TeamsTable teams={mockFootballTeamsData} />
+        }
+        {currentView === CurrentViewOptions.PLAYER &&
+          <PlayersTable players={mockTeamsPlayersData} />
         }
         {currentView === CurrentViewOptions.LOGIN &&
           <LoginForm setCurrentView={setCurrentView} />

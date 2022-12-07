@@ -16,14 +16,19 @@ function HeaderBar({ curViewOption, sportName, teamName, managerName}: IHeaderBa
      * @returns {string} Constructed breadrumbitem string
      */
     const renderHeader = (): ReactElement => {
-        // Option for Sport
+        // Option for Teams
         if (curViewOption === CurrentViewOptions.SPORT) {
-            return <h3><strong>{CurrentViewOptionStrings[CurrentViewOptions.SPORT]}:</strong> {sportName}</h3>;
+            return <h3><strong>{CurrentViewOptionStrings[CurrentViewOptions.SPORT]}</strong></h3>;
         }
 
-        // Option for team
+        // Option for Teams
         if (curViewOption === CurrentViewOptions.TEAM) {
-            return <h3><strong>{CurrentViewOptionStrings[CurrentViewOptions.TEAM]}:</strong> {teamName}, <strong>{CurrentViewOptionStrings[CurrentViewOptions.MANAGER]}:</strong> {managerName}</h3>
+            return <h3><strong>{CurrentViewOptionStrings[CurrentViewOptions.TEAM]}:</strong> {sportName}</h3>;
+        }
+
+        // Option for Players
+        if (curViewOption === CurrentViewOptions.PLAYER) {
+            return <h3><strong>{CurrentViewOptionStrings[CurrentViewOptions.PLAYER]}:</strong> {teamName}, <strong>{CurrentViewOptionStrings[CurrentViewOptions.MANAGER]}:</strong> {managerName}</h3>
         }
 
         // Option for Registration
