@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Row } from 'reactstrap';
 
 // Constants 
 import { CurrentViewOptions } from '../common/constants/constants';
@@ -15,8 +16,6 @@ import SportsTable from './DataTables/SportTable/SportTable';
 import TeamTable from './DataTables/TeamTable/TeamTable';
 import LoginForm from './LoginForm/LoginForm';
 import RegistrationForm from './RegistrationForm/RegistrationForm';
-import { Row } from 'reactstrap';
-
 
 const mockFootballTeamsData: Array<ITeam> = [
   {

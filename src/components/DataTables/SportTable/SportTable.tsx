@@ -5,6 +5,9 @@ import { Row, Table } from 'reactstrap';
 // Interfaces
 import ITeam from '../../../common/interfaces/ITeam';
 
+// Custome Components
+import SportTableRow from './SportTableRow';
+
 // Hooks
 import { useAuthentication } from '../../../hooks/useAuthentication';
 
@@ -25,17 +28,7 @@ function SportsTable({ teams }: ISportsTableProps): ReactElement {
             <tbody>
                 {_.map(teams, (team: ITeam) => {
                     return (
-                        <tr key={team.id}>
-                            <th scope='row'>
-                                {team.teamName}
-                            </th>
-                            <td>
-                                {team.managerName}
-                            </td>
-                            <td>
-                                {team.numPlayers}
-                            </td>
-                        </tr>
+                        <SportTableRow team={team} />
                     )
                 })}
             </tbody>
@@ -63,6 +56,11 @@ function SportsTable({ teams }: ISportsTableProps): ReactElement {
                             <th>
                                 Number of Players on Roster
                             </th>
+                            {isAuthenticated && 
+                                <th>
+                                    Manage Team
+                                </th>
+                            }
                         </tr>
                     </thead>
                     <RenderTableBody />
