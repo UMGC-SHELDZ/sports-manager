@@ -7,6 +7,7 @@ import IPlayer from '../../../common/interfaces/IPlayer';
 
 // Hooks
 import { useAuthentication } from '../../../hooks/useAuthentication';
+import TeamTableRow from './TeamTableRow';
 
 interface ITeamTableProps {
     players: Array<IPlayer>;
@@ -25,23 +26,7 @@ function TeamTable({ players }: ITeamTableProps): ReactElement {
             <tbody>
                 {_.map(players, (player) => {
                     return (
-                        <tr key={player.id}>
-                            <th scope='row'>
-                                {player.lastName}
-                            </th>
-                            <td>
-                                {player.firstName}
-                            </td>
-                            <td>
-                                {!_.isNil(player.position) ? player.position : 'No Position'}
-                            </td>
-                            <td>
-                                {!_.isNil(player.playerNumber) ? player.playerNumber : 'No Number'}
-                            </td>
-                            <td>
-                                {!_.isNil(player.salary) ? player.salary : 'No Salary'}
-                            </td>
-                        </tr>
+                        <TeamTableRow player={player} />
                     )
                 })}
             </tbody>
@@ -74,6 +59,11 @@ function TeamTable({ players }: ITeamTableProps): ReactElement {
                             <th>
                                 Player Salary
                             </th>
+                            {isAuthenticated && 
+                                <th>
+                                    Manage Team
+                                </th>
+                            }
                         </tr>
                     </thead>
                     <RenderTableBody />
