@@ -1,6 +1,14 @@
 import React, { ReactElement } from 'react'
 
-function RegistrationForm(): ReactElement {
+// Constants
+import { CurrentViewOptions } from '../../common/constants/constants';
+
+// Props for RegistrationForm
+interface IRegistrationFormProps {
+    setCurrentView: Function;
+}
+
+function RegistrationForm({ setCurrentView }: IRegistrationFormProps): ReactElement {
     return (
         <div className='auth-box'>
             <form className='form'>
@@ -35,7 +43,7 @@ function RegistrationForm(): ReactElement {
                     />
                 </div>
                 <div className="d-grid">
-                    <button type="submit" className="btn btn-primary">
+                    <button className="btn btn-primary" onClick={() => setCurrentView(CurrentViewOptions.REGISTRATION_SUCCESS)}>
                         Submit
                     </button>
                 </div>

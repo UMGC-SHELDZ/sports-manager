@@ -15,6 +15,7 @@ import SportsTable from './DataTables/SportTable/SportTable';
 import TeamTable from './DataTables/TeamTable/TeamTable';
 import LoginForm from './LoginForm/LoginForm';
 import RegistrationForm from './RegistrationForm/RegistrationForm';
+import { Row } from 'reactstrap';
 
 
 const mockFootballTeamsData: Array<ITeam> = [
@@ -67,18 +68,28 @@ function App() {
     <div className="App">
       <JumbotronHeader />
       <MainNavbar setCurrentView={setCurrentView} />
-      <HeaderBar curViewOption={CurrentViewOptions.SPORT} sportName={'test'} />
+      <HeaderBar curViewOption={currentView} sportName={'Football'} managerName={'Manager Name'} teamName={'Football Team Name'} />
       {currentView === CurrentViewOptions.SPORT &&
         <SportsTable teams={mockFootballTeamsData} />
       }
       {currentView === CurrentViewOptions.TEAM &&
         <TeamTable players={mockTeamsPlayersData} />
       }
-      {currentView === CurrentViewOptions.MANAGER &&
-        <LoginForm />
+      {currentView === CurrentViewOptions.LOGIN &&
+        <LoginForm setCurrentView={setCurrentView} />
       }
-      {currentView === CurrentViewOptions.SIGN_UP &&
-        <RegistrationForm />
+      {currentView === CurrentViewOptions.REGISTRATION &&
+        <RegistrationForm setCurrentView={setCurrentView} />
+      }
+      {currentView === CurrentViewOptions.LOGIN_SUCCESS && 
+          <Row>
+            <h2>Successfully Logged In!</h2>
+          </Row>
+      }
+      {currentView === CurrentViewOptions.REGISTRATION_SUCCESS && 
+          <Row>
+            <h2>Successfully Registered!</h2>
+          </Row>
       }
     </div>
   );
