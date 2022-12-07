@@ -1,5 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import * as _ from 'lodash';
 
-export const useAuthentication = (): boolean => {
-    return true;
+// Global State
+import { UserContext } from '../providers/UserProvider';
+
+export const useAuthentication = () => {
+    // Grab auth token from state.
+    const { authToken } = useContext(UserContext);
+
+    // Return if auth token is present
+    return !_.isNil(authToken);
 }
