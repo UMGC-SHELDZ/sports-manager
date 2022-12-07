@@ -1,19 +1,19 @@
 import React, { FormEvent, ReactElement, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBan, faFloppyDisk, faPenToSquare, faX } from '@fortawesome/free-solid-svg-icons'
+import * as _ from 'lodash';
 
 // Hooks
 import { useAuthentication } from '../../../hooks/useAuthentication';
 
 // Interfaces
 import IPlayer from '../../../common/interfaces/IPlayer';
-import _ from 'lodash';
 
-interface ITeamTableRowProps {
+interface IPlayersTableRowProps {
     player: IPlayer;
 }
 
-function TeamTableRow({ player }: ITeamTableRowProps): ReactElement {
+function PlayersTableRow({ player }: IPlayersTableRowProps): ReactElement {
     // Check authentication
     const isAuthenticated: boolean = useAuthentication();
 
@@ -120,4 +120,4 @@ function TeamTableRow({ player }: ITeamTableRowProps): ReactElement {
     )
 };
 
-export default TeamTableRow;
+export default PlayersTableRow;

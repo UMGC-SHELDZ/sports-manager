@@ -25,6 +25,11 @@ function MainNavbar({ setCurrentView }: IMainNavBarProps): ReactElement {
                         View Teams
                     </NavLink>
                 </NavItem>
+                <NavItem>
+                    <NavLink className='view-choice' onClick={() => setCurrentView(CurrentViewOptions.PLAYER)}>
+                        View Players
+                    </NavLink>
+                </NavItem>
             </Nav>
             <Nav>
                 <NavItem>

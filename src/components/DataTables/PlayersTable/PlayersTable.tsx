@@ -3,22 +3,20 @@ import * as _ from 'lodash';
 import { Row, Table } from 'reactstrap';
 
 // Interfaces
-import ITeam from '../../../common/interfaces/ITeam';
-
-// Custome Components
-import SportTableRow from './SportTableRow';
+import IPlayer from '../../../common/interfaces/IPlayer';
 
 // Hooks
 import { useAuthentication } from '../../../hooks/useAuthentication';
+import PlayersTableRow from './PlayersTableRow';
 
-interface ISportsTableProps {
-    teams: Array<ITeam>;
+interface IPlayersTableProps {
+    players: Array<IPlayer>;
 }
 
-function SportsTable({ teams }: ISportsTableProps): ReactElement {
+function PlayersTable({ players }: IPlayersTableProps): ReactElement {
     // Check authentication
     const isAuthenticated: boolean = useAuthentication();
-
+    
     /**
      * Renders a table body using props.
      * @returns {ReactElement} The rendered table body.
@@ -26,35 +24,40 @@ function SportsTable({ teams }: ISportsTableProps): ReactElement {
     const RenderTableBody = (): ReactElement => {
         return (
             <tbody>
-                {_.map(teams, (team: ITeam) => {
+                {_.map(players, (player) => {
                     return (
-                        <SportTableRow team={team} />
+                        <PlayersTableRow player={player} />
                     )
                 })}
             </tbody>
         );
     };
 
-    // Renders the table if props are provided for teams, otherwise renders a disclaimer that no teams are present.
     return (
         <>
-            {_.isEmpty(teams) && (
+            {_.isEmpty(players) && (
                 <Row>
-                    <h2>No teams found for this sport. Please sign up as a manager to create a team!</h2>
+                    <h2>No players found for this team. Please sign up as a manager to create a player!</h2>
                 </Row>
             )}
-            {!_.isEmpty(teams) && (
+            {!_.isEmpty(players) && (
                 <Table striped hover>
                     <thead>
                         <tr>
                             <th>
-                                Team Name
+                                Last Name
                             </th>
                             <th>
-                                Manager Name
+                                First Name
                             </th>
                             <th>
-                                Number of Players on Roster
+                                Position
+                            </th>
+                            <th>
+                                Player Number
+                            </th>
+                            <th>
+                                Player Salary
                             </th>
                             {isAuthenticated && 
                                 <th>
@@ -67,7 +70,7 @@ function SportsTable({ teams }: ISportsTableProps): ReactElement {
                 </Table>
             )}
         </>
-    )
+    );
 };
 
-export default SportsTable;
+export default PlayersTable;

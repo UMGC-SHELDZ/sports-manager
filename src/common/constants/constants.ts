@@ -1,6 +1,7 @@
 // Enum for view options
 export enum CurrentViewOptions {
     MANAGER = 'MANAGER',
+    PLAYER = 'PLAYER',
     TEAM = 'TEAM',
     SPORT = 'SPORT',
     REGISTRATION = 'REGISTRATION',
@@ -12,8 +13,9 @@ export enum CurrentViewOptions {
 // To use with enum to display on the HeaderBar
 const CurrentViewOptionStrings: { [key: string]: string} = {
     MANAGER: 'Current Manager',
-    TEAM: 'Active Team',
-    SPORT: 'Selected Sport',
+    PLAYER: 'Active Team',
+    TEAM: 'Selected Sport',
+    SPORT: 'Teams by Sport',
     REGISTRATION: 'Create a Manager Account',
     REGISTRATION_SUCCESS: 'Thank You For Registering',
     LOGIN: 'Input Login Information',

@@ -8,11 +8,11 @@ import { useAuthentication } from '../../../hooks/useAuthentication';
 // Interfaces
 import ITeam from '../../../common/interfaces/ITeam';
 
-interface ITableRowProps {
+interface ITeamsTableRowProps {
     team: ITeam;
 }
 
-function SportTableRow({ team }: ITableRowProps): ReactElement {
+function TeamsTableRow({ team }: ITeamsTableRowProps): ReactElement {
     // Check authentication
     const isAuthenticated: boolean = useAuthentication();
 
@@ -90,4 +90,4 @@ function SportTableRow({ team }: ITableRowProps): ReactElement {
     )
 };
 
-export default SportTableRow;
+export default TeamsTableRow;
