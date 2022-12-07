@@ -13,7 +13,7 @@ function MainNavbar({ setCurrentView }: IMainNavBarProps): ReactElement {
 
     return (
         <Navbar>
-            <NavbarBrand href='/'>Sports Manager</NavbarBrand>
+            <NavbarBrand>Sports Manager</NavbarBrand>
             <Nav className='me-auto'>
                 <NavItem>
                     <NavLink className='view-choice' onClick={() => setCurrentView(CurrentViewOptions.SPORT)}>
@@ -28,12 +28,12 @@ function MainNavbar({ setCurrentView }: IMainNavBarProps): ReactElement {
             </Nav>
             <Nav>
                 <NavItem>
-                    <NavLink className='view-choice' onClick={() => setCurrentView(CurrentViewOptions.MANAGER)}>
+                    <NavLink className='view-choice' onClick={() => setCurrentView(CurrentViewOptions.LOGIN)}>
                         Manager Log In
                     </NavLink>
                 </NavItem>
                 <NavItem>
-                    <NavLink className='view-choice' onClick={() => setCurrentView(CurrentViewOptions.SIGN_UP)}>
+                    <NavLink className='view-choice' onClick={() => setCurrentView(CurrentViewOptions.REGISTRATION)}>
                         Manager Sign Up
                     </NavLink>
                 </NavItem>

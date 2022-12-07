@@ -26,6 +26,26 @@ function HeaderBar({ curViewOption, sportName, teamName, managerName}: IHeaderBa
             return <h3><strong>{CurrentViewOptionStrings[CurrentViewOptions.TEAM]}:</strong> {teamName}, <strong>{CurrentViewOptionStrings[CurrentViewOptions.MANAGER]}:</strong> {managerName}</h3>
         }
 
+        // Option for Registration
+        if (curViewOption === CurrentViewOptions.REGISTRATION) {
+            return <h3><strong>{CurrentViewOptionStrings[CurrentViewOptions.REGISTRATION]}</strong></h3>;
+        }
+
+        // Option for Registration Success
+        if (curViewOption === CurrentViewOptions.REGISTRATION_SUCCESS) {
+            return <h3><strong>{CurrentViewOptionStrings[CurrentViewOptions.REGISTRATION_SUCCESS]}</strong></h3>;
+        }
+
+        // Option for Login
+        if (curViewOption === CurrentViewOptions.LOGIN) {
+            return <h3><strong>{CurrentViewOptionStrings[CurrentViewOptions.LOGIN]}</strong></h3>;
+        }
+
+        // Option for Login Success
+        if (curViewOption === CurrentViewOptions.LOGIN_SUCCESS) {
+            return <h3><strong>{CurrentViewOptionStrings[CurrentViewOptions.LOGIN_SUCCESS]}</strong></h3>;
+        }
+
         // Implicitly return manager view
         return <h3>Manager View</h3>;
     }

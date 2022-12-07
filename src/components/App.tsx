@@ -5,6 +5,7 @@ import { CurrentViewOptions } from '../common/constants/constants';
 
 // Interfaces
 import ITeam from '../common/interfaces/ITeam';
+import IPlayer from '../common/interfaces/IPlayer';
 
 // Custom components
 import HeaderBar from './HeaderBar/HeaderBar';
@@ -12,9 +13,9 @@ import JumbotronHeader from './JumbotronHeader/JumbotronHeader';
 import MainNavbar from './MainNavbar/MainNavbar';
 import SportsTable from './DataTables/SportTable/SportTable';
 import TeamTable from './DataTables/TeamTable/TeamTable';
-import IPlayer from '../common/interfaces/IPlayer';
-import Login from './Login/Login'
-import Sign_up from './Sign_up/Sign_up';
+import LoginForm from './LoginForm/LoginForm';
+import RegistrationForm from './RegistrationForm/RegistrationForm';
+import { Row } from 'reactstrap';
 
 
 const mockFootballTeamsData: Array<ITeam> = [
@@ -67,18 +68,28 @@ function App() {
     <div className="App">
       <JumbotronHeader />
       <MainNavbar setCurrentView={setCurrentView} />
-      <HeaderBar curViewOption={CurrentViewOptions.SPORT} sportName={'test'} />
+      <HeaderBar curViewOption={currentView} sportName={'Football'} managerName={'Manager Name'} teamName={'Football Team Name'} />
       {currentView === CurrentViewOptions.SPORT &&
         <SportsTable teams={mockFootballTeamsData} />
       }
       {currentView === CurrentViewOptions.TEAM &&
         <TeamTable players={mockTeamsPlayersData} />
       }
-      {currentView === CurrentViewOptions.MANAGER &&
-        <Login />
+      {currentView === CurrentViewOptions.LOGIN &&
+        <LoginForm setCurrentView={setCurrentView} />
       }
-      {currentView === CurrentViewOptions.SIGN_UP &&
-        <Sign_up />
+      {currentView === CurrentViewOptions.REGISTRATION &&
+        <RegistrationForm setCurrentView={setCurrentView} />
+      }
+      {currentView === CurrentViewOptions.LOGIN_SUCCESS && 
+          <Row>
+            <h2>Successfully Logged In!</h2>
+          </Row>
+      }
+      {currentView === CurrentViewOptions.REGISTRATION_SUCCESS && 
+          <Row>
+            <h2>Successfully Registered!</h2>
+          </Row>
       }
     </div>
   );
