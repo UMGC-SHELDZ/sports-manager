@@ -1,13 +1,21 @@
 import React, { ReactElement } from 'react';
 import * as _ from 'lodash';
-import IPlayer from '../../../common/interfaces/IPlayer';
 import { Row, Table } from 'reactstrap';
+
+// Interfaces
+import IPlayer from '../../../common/interfaces/IPlayer';
+
+// Hooks
+import { useAuthentication } from '../../../hooks/useAuthentication';
 
 interface ITeamTableProps {
     players: Array<IPlayer>;
 }
 
 function TeamTable({ players }: ITeamTableProps): ReactElement {
+    // Check authentication
+    const isAuthenticated: boolean = useAuthentication();
+    
     /**
      * Renders a table body using props.
      * @returns {ReactElement} The rendered table body.
