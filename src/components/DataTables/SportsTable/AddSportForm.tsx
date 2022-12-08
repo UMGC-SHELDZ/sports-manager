@@ -1,13 +1,15 @@
-import { faFloppyDisk, faEraser } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import React, { FormEvent, ReactElement, useState } from 'react';
 import { Table } from 'reactstrap';
 
-function AddSportForm(): ReactElement {
-     // State for sport variables
-     const [sportsName, setSportsName] = useState<string>('');
+// Custom Components
+import AddFormOptions from '../AddFormComponents/AddFormOptions';
 
-     // Handlers for UI actions
+function AddSportForm(): ReactElement {
+    // State for sport variables
+    const [sportsName, setSportsName] = useState<string>('');
+
+    // Handlers for UI actions
     /**
      * Handler for changing the name of a sport
      * @param {FormEvent<HTMLInputElement>} e Changes to the input field.
@@ -26,7 +28,7 @@ function AddSportForm(): ReactElement {
     /**
      * Handler to clear the sports form
      */
-    const handleClearSportsForm = (): void => {
+    const handleClearSportForm = (): void => {
         setSportsName('');
     }
 
@@ -46,10 +48,7 @@ function AddSportForm(): ReactElement {
                 <td>
                     <input value={sportsName} onChange={handleSportsNameChange} />
                 </td>
-                <td>
-                    <FontAwesomeIcon icon={faFloppyDisk} onClick={handleSaveSport}/>
-                    <FontAwesomeIcon icon={faEraser} onClick={handleClearSportsForm} />
-                </td>
+                <AddFormOptions saveFn={handleSaveSport} clearFn={handleClearSportForm} />
             </tr>
         </Table>
     );

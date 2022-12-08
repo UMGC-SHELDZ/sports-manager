@@ -1,7 +1,8 @@
-import { faFloppyDisk, faEraser } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { FormEvent, ReactElement, useState } from 'react';
 import { Table } from 'reactstrap';
+
+// Custom Components
+import AddFormOptions from '../AddFormComponents/AddFormOptions';
 
 function AddPlayerForm(): ReactElement {
      // State for player variables
@@ -14,7 +15,7 @@ function AddPlayerForm(): ReactElement {
     // This should be changed to the teamID
     const [team, setTeam] = useState('');
 
-     // Handlers for UI actions
+    // Handlers for UI actions
     /**
      * Handler for changing the last name of a player
      * @param {FormEvent<HTMLInputElement>} e Changes to the input field.
@@ -129,10 +130,7 @@ function AddPlayerForm(): ReactElement {
                 <td>
                     <input value={salary} onChange={handleSalaryChange} />
                 </td>
-                <td>
-                    <FontAwesomeIcon icon={faFloppyDisk} onClick={handleSavePlayer}/>
-                    <FontAwesomeIcon icon={faEraser} onClick={handleClearPlayerForm} />
-                </td>
+                <AddFormOptions saveFn={handleSavePlayer} clearFn={handleClearPlayerForm} />
             </tr>
         </Table>
     );

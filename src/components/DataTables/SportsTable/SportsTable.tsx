@@ -5,7 +5,7 @@ import { Row, Table } from 'reactstrap';
 // Interfaces
 import ISport from '../../../common/interfaces/ISport';
 
-// Custome Components
+// Custom Components
 import SportsTableRow from './SportsTableRow';
 
 // Hooks

@@ -1,120 +1,88 @@
-import { faFloppyDisk, faEraser } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { FormEvent, ReactElement, useState } from 'react';
 import { Table } from 'reactstrap';
 
+// Custom Components
+import AddFormOptions from '../AddFormComponents/AddFormOptions';
+
 function AddTeamForm(): ReactElement {
-     // State for player variables
-     const [lastName, setLastName] = useState<string>('');
-     const [firstName, setFirstName] = useState<string>('');
-     const [position, setPosition] = useState<string>('');
-     const [playerNumber, setPlayerNumber] = useState<string>('');
-     const [salary, setSalary] = useState<string>('');
+    // State for team variables
+    const [teamName, setTeamName] = useState<string>('');
 
-     // Handlers for UI actions
+    // Theses should really store an IDs
+    const [sport, setSport] = useState<string>('');
+    const [manager, setManager] = useState<string>('');
+
+    // Handlers for UI actions
     /**
-     * Handler for changing the last name of a player
+     * Handler for changing the name of a team
      * @param {FormEvent<HTMLInputElement>} e Changes to the input field.
      */
-    const handleLastNameChange = (e: FormEvent<HTMLInputElement>): void => {
-        setLastName(e.currentTarget.value);
+    const handleTeamNameChange = (e: FormEvent<HTMLInputElement>): void => {
+        setTeamName(e.currentTarget.value);
     };
 
     /**
-     * Handler for changing the first name of a player
+     * Handler for changing the sport of a team
      * @param {FormEvent<HTMLInputElement>} e Changes to the input field.
      */
-    const handleFirstNameChange = (e: FormEvent<HTMLInputElement>): void => {
-        setFirstName(e.currentTarget.value);
+     const handleSportChange = (e: FormEvent<HTMLInputElement>): void => {
+        setSport(e.currentTarget.value);
     };
 
     /**
-     * Handler for changing the position of a player
+     * Handler for changing the manager of a team
      * @param {FormEvent<HTMLInputElement>} e Changes to the input field.
      */
-    const handlePositionChange = (e: FormEvent<HTMLInputElement>): void => {
-        setPosition(e.currentTarget.value);
+     const handleManagerChange = (e: FormEvent<HTMLInputElement>): void => {
+        setManager(e.currentTarget.value);
     };
 
     /**
-     * Handler for changing the number of a player
-     * @param {FormEvent<HTMLInputElement>} e Changes to the input field.
+     * Handler to save a team
      */
-    const handlePlayerNumberChange = (e: FormEvent<HTMLInputElement>): void => {
-        setPlayerNumber(e.currentTarget.value);
-    };
-
-    /**
-     * Handler for changing the salary of a player
-     * @param {FormEvent<HTMLInputElement>} e Changes to the input field.
-     */
-    const handleSalaryChange = (e: FormEvent<HTMLInputElement>): void => {
-        setSalary(e.currentTarget.value);
-    };
-
-
-    /**
-     * Handler to save a player
-     */
-    const handleSavePlayer = (): void => {
-        alert(`${firstName} ${lastName} would be saved`);
+    const handleSaveTeam = (): void => {
+        alert(`${teamName} would be saved`);
     }
 
     /**
-     * Handler to clear the player form
+     * Handler to clear the team form
      */
-    const handleClearPlayerForm = (): void => {
-        setLastName('');
-        setFirstName('');
-        setPosition('');
-        setPlayerNumber('');
-        setSalary('');
+    const handleClearTeamForm = (): void => {
+        setTeamName('');
+        setSport('');
+        setManager('');
     }
 
+    // Selecting a sport and a manager should be drop downs of all options.
     return (
         <Table>
             <thead>
                 <tr>
                     <th>
-                        New Player Last Name
+                        New Team Name
                     </th>
                     <th>
-                        New Player First Name
+                        Select Team Manager
                     </th>
                     <th>
-                        New Player Position
+                        Select Team Sport
                     </th>
                     <th>
-                        New Player Number
-                    </th>
-                    <th>
-                        New Player Salary
-                    </th>
-                    <th>
-                        Save Player/Clear Form
+                        Save Team/Clear Form
                     </th>
                 </tr>
             </thead>
             <tr>
                 <td>
-                    <input value={lastName} onChange={handleLastNameChange} />
+                    <input value={teamName} onChange={handleTeamNameChange} />
                 </td>
                 <td>
-                    <input value={firstName} onChange={handleFirstNameChange} />
+                    <input value={manager} onChange={handleManagerChange} />
                 </td>
                 <td>
-                    <input value={position} onChange={handlePositionChange} />
+                    <input value={sport} onChange={handleSportChange} />
                 </td>
-                <td>
-                    <input value={playerNumber} onChange={handlePlayerNumberChange} />
-                </td>
-                <td>
-                    <input value={salary} onChange={handleSalaryChange} />
-                </td>
-                <td>
-                    <FontAwesomeIcon icon={faFloppyDisk} onClick={handleSavePlayer}/>
-                    <FontAwesomeIcon icon={faEraser} onClick={handleClearPlayerForm} />
-                </td>
+                <AddFormOptions saveFn={handleSaveTeam} clearFn={handleClearTeamForm} />
             </tr>
         </Table>
     );
