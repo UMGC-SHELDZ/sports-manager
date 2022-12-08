@@ -3,16 +3,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { FormEvent, ReactElement, useState } from 'react';
 import { Table } from 'reactstrap';
 
-function AddPlayerForm(): ReactElement {
+function AddTeamForm(): ReactElement {
      // State for player variables
-    const [lastName, setLastName] = useState<string>('');
-    const [firstName, setFirstName] = useState<string>('');
-    const [position, setPosition] = useState<string>('');
-    const [playerNumber, setPlayerNumber] = useState<string>('');
-    const [salary, setSalary] = useState<string>('');
-
-    // This should be changed to the teamID
-    const [team, setTeam] = useState('');
+     const [lastName, setLastName] = useState<string>('');
+     const [firstName, setFirstName] = useState<string>('');
+     const [position, setPosition] = useState<string>('');
+     const [playerNumber, setPlayerNumber] = useState<string>('');
+     const [salary, setSalary] = useState<string>('');
 
      // Handlers for UI actions
     /**
@@ -37,14 +34,6 @@ function AddPlayerForm(): ReactElement {
      */
     const handlePositionChange = (e: FormEvent<HTMLInputElement>): void => {
         setPosition(e.currentTarget.value);
-    };
-
-    /**
-     * Handler for changing the team of a player
-     * @param {FormEvent<HTMLInputElement>} e Changes to the input field.
-     */
-     const handleTeamChange = (e: FormEvent<HTMLInputElement>): void => {
-        setTeam(e.currentTarget.value);
     };
 
     /**
@@ -78,7 +67,6 @@ function AddPlayerForm(): ReactElement {
         setLastName('');
         setFirstName('');
         setPosition('');
-        setTeam('');
         setPlayerNumber('');
         setSalary('');
     }
@@ -87,9 +75,6 @@ function AddPlayerForm(): ReactElement {
         <Table>
             <thead>
                 <tr>
-                    <th>
-                        Team
-                    </th>
                     <th>
                         New Player Last Name
                     </th>
@@ -111,9 +96,6 @@ function AddPlayerForm(): ReactElement {
                 </tr>
             </thead>
             <tr>
-                <td>
-                    <input value={team} onChange={handleTeamChange} />
-                </td>
                 <td>
                     <input value={lastName} onChange={handleLastNameChange} />
                 </td>
@@ -138,4 +120,4 @@ function AddPlayerForm(): ReactElement {
     );
 };
 
-export default AddPlayerForm;
+export default AddTeamForm;
