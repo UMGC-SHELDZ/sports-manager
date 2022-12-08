@@ -5,11 +5,12 @@ import { Row, Table } from 'reactstrap';
 // Interfaces
 import ISport from '../../../common/interfaces/ISport';
 
-// Custome Components
+// Custom Components
 import SportsTableRow from './SportsTableRow';
 
 // Hooks
 import { useAuthentication } from '../../../hooks/useAuthentication';
+import AddSportForm from './AddSportForm';
 
 interface ISportsTableProps {
     sports: Array<ISport>;
@@ -38,6 +39,9 @@ function SportsTable({ sports }: ISportsTableProps): ReactElement {
     // Renders the table if props are provided for sports, otherwise renders a disclaimer that no sports are present.
     return (
         <>
+            {isAuthenticated &&
+                <AddSportForm  />
+            }
             {_.isEmpty(sports) && (
                 <Row>
                     <h2>No Sports found. Please sign up as a manager to add a sport!</h2>
@@ -48,7 +52,7 @@ function SportsTable({ sports }: ISportsTableProps): ReactElement {
                     <thead>
                         <tr>
                             <th>
-                                TSport Name
+                                Sport Name
                             </th>
                             <th>
                                 Number of Teams in Sport

@@ -5,8 +5,9 @@ import { Row, Table } from 'reactstrap';
 // Interfaces
 import ITeam from '../../../common/interfaces/ITeam';
 
-// Custome Components
+// Custom Components
 import TeamsTableRow from './TeamsTableRow';
+import AddTeamForm from './AddTeamForm';
 
 // Hooks
 import { useAuthentication } from '../../../hooks/useAuthentication';
@@ -38,6 +39,9 @@ function TeamsTable({ teams }: ITeamsTableProps): ReactElement {
     // Renders the table if props are provided for teams, otherwise renders a disclaimer that no teams are present.
     return (
         <>
+            {isAuthenticated &&
+                <AddTeamForm  />
+            }
             {_.isEmpty(teams) && (
                 <Row>
                     <h2>No teams found for this sport. Please sign up as a manager to create a team!</h2>

@@ -8,6 +8,7 @@ import IPlayer from '../../../common/interfaces/IPlayer';
 // Hooks
 import { useAuthentication } from '../../../hooks/useAuthentication';
 import PlayersTableRow from './PlayersTableRow';
+import AddPlayerForm from './AddPlayerForm';
 
 interface IPlayersTableProps {
     players: Array<IPlayer>;
@@ -35,6 +36,9 @@ function PlayersTable({ players }: IPlayersTableProps): ReactElement {
 
     return (
         <>
+            {isAuthenticated &&
+                <AddPlayerForm />
+            }
             {_.isEmpty(players) && (
                 <Row>
                     <h2>No players found for this team. Please sign up as a manager to create a player!</h2>
