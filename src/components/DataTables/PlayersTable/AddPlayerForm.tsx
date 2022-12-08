@@ -96,9 +96,9 @@ function AddPlayerForm(): ReactElement {
                 </tr>
             </thead>
             <tr>
-                <th scope='row'>
+                <td>
                     <input value={lastName} onChange={handleLastNameChange} />
-                </th>
+                </td>
                 <td>
                     <input value={firstName} onChange={handleFirstNameChange} />
                 </td>
