@@ -15,8 +15,8 @@ import JumbotronHeader from './JumbotronHeader/JumbotronHeader';
 import MainNavbar from './MainNavbar/MainNavbar';
 import TeamsTable from './DataTables/TeamsTable/TeamsTable';
 import PlayersTable from './DataTables/PlayersTable/PlayersTable';
-import LoginForm from './LoginForm/LoginForm';
-import RegistrationForm from './RegistrationForm/RegistrationForm'
+import LoginForm from './Forms/LoginForm/LoginForm';
+import RegistrationForm from './Forms/RegistrationForm/RegistrationForm'
 import SportsTable from './DataTables/SportsTable/SportsTable';
 
 // Global State

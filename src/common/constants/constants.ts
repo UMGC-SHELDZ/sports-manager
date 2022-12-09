@@ -8,6 +8,24 @@ export enum CurrentViewOptions {
     REGISTRATION_SUCCESS = 'REGISTRATION_SUCCESS',
     LOGIN = 'LOGIN',
     LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+};
+
+// Enum for text input 
+export enum InputFieldTypes {
+    TEXT = 'text',
+    PASSWORD = 'password'
+};
+
+// Enum for component color
+export enum ComponentColor {
+    PRIMARY = 'primary',
+    SECONDARY = 'secondary',
+    SUCCESS = 'success',
+    DANGER = 'danger',
+    WARNING = 'warning',
+    INFO = 'info',
+    LIGHT = 'light',
+    DARK = 'dark'
 }
 
 // To use with enum to display on the HeaderBar
