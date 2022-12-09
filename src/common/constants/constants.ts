@@ -16,6 +16,18 @@ export enum InputFieldTypes {
     PASSWORD = 'password'
 };
 
+// Enum for component color
+export enum ComponentColor {
+    PRIMARY = 'primary',
+    SECONDARY = 'secondary',
+    SUCCESS = 'success',
+    DANGER = 'danger',
+    WARNING = 'warning',
+    INFO = 'info',
+    LIGHT = 'light',
+    DARK = 'dark'
+}
+
 // To use with enum to display on the HeaderBar
 const CurrentViewOptionStrings: { [key: string]: string} = {
     MANAGER: 'Current Manager',

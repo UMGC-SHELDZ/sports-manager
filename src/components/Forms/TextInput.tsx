@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React, { FormEvent, ReactElement, useState } from 'react';
 import { FormGroup, Label, Col, Input, Tooltip } from 'reactstrap';
 import { InputFieldTypes } from '../../common/constants/constants';
@@ -7,11 +6,11 @@ interface ITextInputProps {
     disabled: boolean;
     id: string;
     inputType: InputFieldTypes;
-    invalid: boolean;
+    invalid?: boolean;
     label: string;
     onChange: (e: FormEvent<HTMLInputElement>) => void;
     value: string;
-    valid: boolean;
+    valid?: boolean;
     validationText: string;
 }
 
@@ -37,7 +36,7 @@ function TextInput({ disabled, id, inputType, invalid, label, onChange, value, v
                     onChange={onChange}
                     invalid={invalid}
                     valid={valid}
-                    readonly={disabled}
+                    readOnly={disabled}
                 />
                 {(id === 'passwordConfirm' && invalid) &&
                     <p className='text-danger mt-2 text-start'>Passwords do not match</p>

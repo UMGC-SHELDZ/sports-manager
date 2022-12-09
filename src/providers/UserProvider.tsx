@@ -20,10 +20,9 @@ const DEFAULT_STATE: IUserState = {
 const reducer = (state: IUserState, action: any) => {
     switch(action.type) {
         case 'STORE_AUTHENTICATION':
-            console.log(state);
             return {
-                userId: action.userId ? action.userId : undefined,
-                authToken: action.userId ? action.userId : undefined,
+                userId: action.userId,
+                authToken: action.authToken,
             };
         default:
             return state;
@@ -35,7 +34,7 @@ const reducer = (state: IUserState, action: any) => {
  */
 const UserContext = createContext<{
     userId: string | undefined;
-    authToken: any;
+    authToken: string;
     dispatch: Dispatch<any>;
 }>({
     userId: DEFAULT_STATE.userId,

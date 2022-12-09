@@ -3,12 +3,14 @@ import * as _ from 'lodash';
 import { AxiosError } from 'axios';
 
 // Constants
-import { CurrentViewOptions, InputFieldTypes } from '../../common/constants/constants';
-import { validateName, validatePassword, validateUsername } from '../../common/utils/validationUtil';
+import { ComponentColor, CurrentViewOptions, InputFieldTypes } from '../../../common/constants/constants';
+import { validateName, validatePassword, validateUsername } from '../../../common/utils/validationUtil';
 import { Button, Col, Form, FormGroup, Row, Spinner, Toast, ToastBody, ToastHeader } from 'reactstrap';
-import TextInput from './TextInput';
-import managerService from '../../services/managerService';
-import IManager from '../../common/interfaces/IManager';
+import TextInput from '../TextInput';
+import managerService from '../../../services/managerService';
+import IManager from '../../../common/interfaces/IManager';
+import { configureToast } from '../../../common/utils/toastUtil';
+import IToastData from '../../../common/interfaces/IToastData';
 
 // Props for RegistrationForm
 interface IRegistrationFormProps {
@@ -23,12 +25,13 @@ function RegistrationForm({ setCurrentView }: IRegistrationFormProps): ReactElem
     // Data State
     const [firstName, setFirstName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
-    const [userName, setUsername] = useState<string>('');
+    const [userName, setUserName] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [passwordConfirm, setPasswordConfirm] = useState<string>('');
 
-    // Toast display
+    // Toast State
     const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
+    const [toastData, setToastData] = useState<IToastData>({ toastIcon: ComponentColor.DANGER, toastHeader: 'Error', toastBody: 'Something went wrong' });
 
     // Changes to form data runs validations
     useEffect(() => {
@@ -52,10 +55,13 @@ function RegistrationForm({ setCurrentView }: IRegistrationFormProps): ReactElem
         return _.isEmpty(invalid);
     };
 
+    /**
+     * Helper function to clear the form.
+     */
     const clearForm = (): void => {
         setFirstName('');
         setLastName('');
-        setUsername('');
+        setUserName('');
         setPassword('');
         setPasswordConfirm('');
     }
@@ -76,6 +82,7 @@ function RegistrationForm({ setCurrentView }: IRegistrationFormProps): ReactElem
 
         // If there is a server error, let the user know something went wrong with their request.
         if (newManager instanceof AxiosError) {
+            setToastData(configureToast(ComponentColor.DANGER, 'Error', 'Something went wrong with processing your request.'));
             setIsToastOpen(true);
             clearForm();
             setIsLoading(false);
@@ -107,7 +114,7 @@ function RegistrationForm({ setCurrentView }: IRegistrationFormProps): ReactElem
      * @param {FormEvent<HTMLInputElement>} e Changes to the input field.
      */
     const handleUsernameChange = (e: FormEvent<HTMLInputElement>): void => {
-        setUsername(e.currentTarget.value);
+        setUserName(e.currentTarget.value);
     };
     
     /**
@@ -204,27 +211,26 @@ function RegistrationForm({ setCurrentView }: IRegistrationFormProps): ReactElem
                                         </Spinner>
                                     :
                                     <>
-                                        <Button color={'primary'} onClick={handleRegistration} disabled={!isValid}>
+                                        <Button color={ComponentColor.PRIMARY} onClick={handleRegistration} disabled={!isValid}>
                                             Submit
                                         </Button>
                                         &nbsp;
-                                        <Button color={'secondary'} onClick={clearForm}>
+                                        <Button color={ComponentColor.SECONDARY} onClick={clearForm}>
                                             Clear Form
                                         </Button>
                                     </>
                                 }
-                                
                             </Col>
                         </FormGroup>
                     </Form>
                 </Col>
             </Row>
             <Toast isOpen={isToastOpen}>
-                <ToastHeader icon='danger' toggle={() => setIsToastOpen(false)}>
-                    Error
+                <ToastHeader icon={toastData.toastIcon} toggle={() => setIsToastOpen(false)}>
+                    {toastData.toastHeader}
                 </ToastHeader>
                 <ToastBody>
-                    Something went wrong with processing your request.
+                    {toastData.toastBody}
                 </ToastBody>
             </Toast>
         </>
