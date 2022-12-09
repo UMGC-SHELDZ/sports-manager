@@ -8,7 +8,13 @@ export enum CurrentViewOptions {
     REGISTRATION_SUCCESS = 'REGISTRATION_SUCCESS',
     LOGIN = 'LOGIN',
     LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-}
+};
+
+// Enum for text input 
+export enum InputFieldTypes {
+    TEXT = 'text',
+    PASSWORD = 'password'
+};
 
 // To use with enum to display on the HeaderBar
 const CurrentViewOptionStrings: { [key: string]: string} = {
