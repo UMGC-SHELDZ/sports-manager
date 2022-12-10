@@ -21,7 +21,7 @@ function TeamsTableRow({ team }: ITeamsTableRowProps): ReactElement {
 
     // Note that we should probably hold the manager ID in the team object, and query for the manager name using the ID
     // It may be wise to have a manager object queried and set here, so we use the ID to send back on updates.
-    const [managerName, setManagerName] = useState<string>(team.managerName);
+    const [managerName, setManagerName] = useState<string>(team.manager);
 
     // Sets edit state
     const [isReadOnly, setIsReadOnly] = useState<boolean>(true);
@@ -61,7 +61,7 @@ function TeamsTableRow({ team }: ITeamsTableRowProps): ReactElement {
     }
 
     return (
-        <tr key={team.id}>
+        <tr key={team._id}>
             <th scope='row'>
                 <input value={teamName} readOnly={isReadOnly} onChange={handleTeamNameChange} />
             </th>

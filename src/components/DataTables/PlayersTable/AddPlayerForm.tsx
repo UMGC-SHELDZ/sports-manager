@@ -1,5 +1,6 @@
 import React, { FormEvent, ReactElement, useState } from 'react';
 import { Table } from 'reactstrap';
+import * as _ from 'lodash';
 
 // Custom Components
 import AddFormOptions from '../AddFormComponents/AddFormOptions';
@@ -130,7 +131,14 @@ function AddPlayerForm(): ReactElement {
                 <td>
                     <input value={salary} onChange={handleSalaryChange} />
                 </td>
-                <AddFormOptions saveFn={handleSavePlayer} clearFn={handleClearPlayerForm} />
+                <AddFormOptions
+                    saveFn={handleSavePlayer}
+                    deleteFn={_.noop}
+                    saveDisabled={false}
+                    isLoading={false}
+                    toggleEdit={_.noop}
+                    isEditMode={false}
+                />
             </tr>
         </Table>
     );

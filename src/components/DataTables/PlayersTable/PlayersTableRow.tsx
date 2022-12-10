@@ -86,7 +86,7 @@ function PlayersTableRow({ player }: IPlayersTableRowProps): ReactElement {
     }
 
     return (
-        <tr key={player.id}>
+        <tr key={player._id}>
             <th scope='row'>
                 <input value={lastName} readOnly={isReadOnly} onChange={handleLastNameChange} />
             </th>

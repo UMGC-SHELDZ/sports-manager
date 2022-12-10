@@ -1,26 +1,72 @@
-import React, { FormEvent, ReactElement, useState } from 'react';
+import React, { FormEvent, ReactElement, useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBan, faFloppyDisk, faPenToSquare, faX } from '@fortawesome/free-solid-svg-icons'
+import * as _ from 'lodash';
 
 // Hooks
 import { useAuthentication } from '../../../hooks/useAuthentication';
 
 // Interfaces
 import ISport from '../../../common/interfaces/ISport';
+import { EntityContext } from '../../../providers/EntityProvider';
+import ITeam from '../../../common/interfaces/ITeam';
+import { Col, Input, Row, Tooltip } from 'reactstrap';
+import AddFormOptions from '../AddFormComponents/AddFormOptions';
+import { validateName } from '../../../common/utils/validationUtil';
+import { ComponentColor, InputFieldTypes } from '../../../common/constants/constants';
+import { AxiosError } from 'axios';
+import { configureToast } from '../../../common/utils/toastUtil';
+import sportsService from '../../../services/sportsService';
+import { UserContext } from '../../../providers/UserProvider';
 
 interface ISportsTableRow {
     sport: ISport;
+    setIsToastOpen: Function;
+    setToastData: Function;
 }
 
-function SportsTableRow({ sport }: ISportsTableRow): ReactElement {
+function SportsTableRow({ sport, setIsToastOpen, setToastData }: ISportsTableRow): ReactElement {
     // Check authentication
     const isAuthenticated: boolean = useAuthentication();
 
+    // global state for teams
+    const { teams, dispatch } = useContext(EntityContext);
+    const { authToken } = useContext(UserContext)
+
     // State for Team variables
     const [sportName, setSportName] = useState<string>(sport.sportName);
+    const [numTeams, setNumTeams] = useState<number>(0);
 
     // Sets edit state
-    const [isReadOnly, setIsReadOnly] = useState<boolean>(true);
+    const [isEditMode, setIsEditMode] = useState<boolean>(false);
+
+    // Form state
+    const [isLoading, setIsLoading] = useState(false);
+
+    // Tooltip state
+    const [tooltipOpen, setTooltipOpen] = useState<boolean>(false);
+
+    // Toggler function
+    const toggle = () => setTooltipOpen(!tooltipOpen);
+
+
+    // Sets the number of teams when a sport is passed into a table row
+    useEffect(() => {
+        getNumTeams();
+    }, [sport]);
+
+    const toggleIsEditMode = () => {
+        setSportName(sport.sportName);
+        setIsEditMode(!isEditMode);
+    };
+
+    /**
+     * Helper function to get the number of teams by sport
+     */
+    const getNumTeams = (): void => {
+        const numTeamsInSport: Array<ITeam> = _.filter(teams, (team) => team.sport === sport._id);
+        setNumTeams(_.size(numTeamsInSport));
+    }
 
     // Handlers for UI actions
     /**
@@ -35,41 +81,105 @@ function SportsTableRow({ sport }: ISportsTableRow): ReactElement {
     /**
      * Handler to delete a team
      */
-    const handleDeleteSport = (): void => {
-        setIsReadOnly(true);
-        alert(`${sportName} would be deleted`);
+    const handleDeleteSport = async (): Promise<void> => {
+        setIsLoading(true);
+        setIsEditMode(false);
+
+        const deleteResp = await sportsService.delete(sport._id as string, authToken as string);
+
+        // If there is a server error, let the user know something went wrong with their request.
+        if (deleteResp instanceof AxiosError) {
+            setToastData(configureToast(ComponentColor.DANGER, 'Error', 'Something went wrong with processing your request.'));
+            setIsToastOpen(true);
+            setIsLoading(false);
+            return;
+        }
+
+        // Add manager to state
+        dispatch({
+            type: 'DELETE_SPORT',
+            sport: sport
+        });
+
+        setIsLoading(false);
     }
 
     /**
      * Handler to save a team
      */
-    const handleSaveSport = (): void => {
-        setIsReadOnly(true);
-        alert(`${sportName} would be saved`);
-    }
+    const handleSaveSport = async (): Promise<void> => {
+        setIsLoading(true);
+        setIsEditMode(false);
+
+        const updateSportData: ISport = {
+            _id: sport._id,
+            sportName: sportName
+        };
+
+        const updateSport: ISport | AxiosError = await sportsService.update(updateSportData, authToken as string);
+
+        // If there is a server error, let the user know something went wrong with their request.
+        if (updateSport instanceof AxiosError) {
+            setToastData(configureToast(ComponentColor.DANGER, 'Error', 'Something went wrong with processing your request.'));
+            setIsToastOpen(true);
+            setIsLoading(false);
+            return;
+        }
+
+        // Add manager to state
+        dispatch({
+            type: 'UPDATE_SPORT',
+            sport: updateSport
+        });
+
+        setIsLoading(false);
+    };
 
     return (
-        <tr key={sport.id}>
+        <tr key={sport._id}>
             <th scope='row'>
-                <input value={sportName} readOnly={isReadOnly} onChange={handleSportNameChange} />
+                <Row className='justify-content-center'>
+                    <Col sm={4}>
+                        {isEditMode &&
+                            <>
+                                <Input
+                                    id={`Tooltip-${sport._id}`}
+                                    type={InputFieldTypes.TEXT}
+                                    value={sportName}
+                                    onChange={handleSportNameChange}
+                                    valid={validateName(sportName)}
+                                    invalid={!validateName(sportName)}
+                                />
+                                <Tooltip
+                                    placement={'top'}
+                                    isOpen={tooltipOpen}
+                                    target={`Tooltip-${sport._id}`}
+                                    toggle={toggle}
+                                >
+                                    Sport name must be only letters with a length between 2 and 20 characters.
+                                </Tooltip>
+                            </>
+                        }
+                        {!isEditMode &&
+                            <>
+                                {sportName}
+                            </>
+                        }
+                    </Col>
+                </Row>
             </th>
             <td>
-                {/* Should be count of associated players from the DB */}
-                {sport.numTeams}
+                {numTeams}
             </td>
             {isAuthenticated &&
-                <td>
-                    {!isReadOnly && 
-                        <FontAwesomeIcon icon={faBan} onClick={() => setIsReadOnly(true)}/>
-                    }
-                    {!isReadOnly && 
-                        <FontAwesomeIcon icon={faFloppyDisk} onClick={handleSaveSport}/>
-                    }
-                    {isReadOnly && 
-                        <FontAwesomeIcon icon={faPenToSquare} onClick={() => setIsReadOnly(false)}/>
-                    }
-                    <FontAwesomeIcon icon={faX} onClick={handleDeleteSport} />
-                </td>
+                <AddFormOptions
+                    saveFn={handleSaveSport}
+                    deleteFn={handleDeleteSport}
+                    toggleEdit={toggleIsEditMode}
+                    saveDisabled={!validateName(sportName)}
+                    isLoading={isLoading}
+                    isEditMode={isEditMode}
+                />
             }
         </tr>
     )

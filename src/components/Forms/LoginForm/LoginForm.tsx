@@ -13,7 +13,7 @@ import { configureToast } from '../../../common/utils/toastUtil';
 
 // Global state
 import { UserContext } from '../../../providers/UserProvider';
-import managerService from '../../../services/managerService';
+import managersService from '../../../services/managersService';
 import TextInput from '../TextInput';
 
 // Props for LoginForm
@@ -76,7 +76,7 @@ function LoginForm({ setCurrentView }: ILoginFormProps): ReactElement {
         setIsLoading(true);
 
         // Attempt to login
-        const authenticatedUser: AuthenticatedUser | AxiosError = await managerService.loginManager(userName, password);
+        const authenticatedUser: AuthenticatedUser | AxiosError = await managersService.loginManager(userName, password);
         // If server error, generic toast display
         if (authenticatedUser instanceof AxiosError) {
             // 401 is invalid credentials
@@ -94,7 +94,7 @@ function LoginForm({ setCurrentView }: ILoginFormProps): ReactElement {
         // If authenticated, set auth in context
         dispatch({
             type: 'STORE_AUTHENTICATION',
-            userId: authenticatedUser.userId,
+            user: authenticatedUser.user,
             authToken: authenticatedUser.token
         });
 
