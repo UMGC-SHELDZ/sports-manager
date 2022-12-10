@@ -5,7 +5,6 @@ export enum CurrentViewOptions {
     TEAM = 'TEAM',
     SPORT = 'SPORT',
     REGISTRATION = 'REGISTRATION',
-    REGISTRATION_SUCCESS = 'REGISTRATION_SUCCESS',
     LOGIN = 'LOGIN',
     LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 };
@@ -35,9 +34,8 @@ const CurrentViewOptionStrings: { [key: string]: string} = {
     TEAM: 'Selected Sport',
     SPORT: 'Teams by Sport',
     REGISTRATION: 'Create a Manager Account',
-    REGISTRATION_SUCCESS: 'Thank You For Registering',
     LOGIN: 'Input Login Information',
-    LOGIN_SUCCESS: 'Welcome back!'
+    LOGIN_SUCCESS: 'Welcome back'
 };
 
 export {

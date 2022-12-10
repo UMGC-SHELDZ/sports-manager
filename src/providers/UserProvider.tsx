@@ -1,14 +1,15 @@
 import React, { createContext, Dispatch, ReactNode, useReducer } from 'react';
+import IManager from '../common/interfaces/IManager';
 
 // Interface for provider state.
 interface IUserState {
-    userId?: string;
-    authToken?: any;
+    user?: IManager;
+    authToken?: string;
 };
 
 // Default state prior to authentication.
 const DEFAULT_STATE: IUserState = {
-    userId: undefined,
+    user: undefined,
     authToken: undefined
 };
 
@@ -21,7 +22,7 @@ const reducer = (state: IUserState, action: any) => {
     switch(action.type) {
         case 'STORE_AUTHENTICATION':
             return {
-                userId: action.userId,
+                user: action.user,
                 authToken: action.authToken,
             };
         default:
@@ -33,11 +34,11 @@ const reducer = (state: IUserState, action: any) => {
  * Creates the context to hold the user information
  */
 const UserContext = createContext<{
-    userId: string | undefined;
-    authToken: string;
+    user: IManager | undefined;
+    authToken: string | undefined;
     dispatch: Dispatch<any>;
 }>({
-    userId: DEFAULT_STATE.userId,
+    user: DEFAULT_STATE.user,
     authToken: DEFAULT_STATE.authToken,
     dispatch: () => DEFAULT_STATE
 });
@@ -46,14 +47,14 @@ const UserContext = createContext<{
  * Provider to wrap components that require context
  */
 const UserProvider = (props: {
-    userId?: string;
-    authToken?: any;
+    user?: IManager;
+    authToken?: string;
     children: ReactNode;
 }) => {
     // Initial state at the launch of the application
     const initialState = props
         ? {
-            userId: props.userId,
+            user: props.user,
             authToken: props.authToken
         }
         : DEFAULT_STATE
@@ -65,7 +66,7 @@ const UserProvider = (props: {
     return (
         <UserContext.Provider
             value={{
-                userId: state.userId,
+                user: state.user,
                 authToken: state.authToken,
                 dispatch: dispatch
             }}

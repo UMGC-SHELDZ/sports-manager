@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
-import { Nav, Navbar, NavbarBrand, NavItem, NavLink } from 'reactstrap';
+import { Button, Nav, Navbar, NavbarBrand, NavItem } from 'reactstrap';
 
 // Constants
-import { CurrentViewOptions } from '../../common/constants/constants';
+import { ComponentColor, CurrentViewOptions } from '../../common/constants/constants';
 
 // Props for main nav bar
 interface IMainNavBarProps {
@@ -12,35 +12,35 @@ interface IMainNavBarProps {
 function MainNavbar({ setCurrentView }: IMainNavBarProps): ReactElement {
 
     return (
-        <Navbar>
-            <NavbarBrand>Sports Manager</NavbarBrand>
+        <Navbar color={ComponentColor.SUCCESS} dark className='custom-nav'>
+            <NavbarBrand>SHELDZ Sports Manager</NavbarBrand>
             <Nav className='me-auto'>
                 <NavItem>
-                    <NavLink className='view-choice' onClick={() => setCurrentView(CurrentViewOptions.SPORT)}>
+                    <Button color={ComponentColor.SUCCESS} onClick={() => setCurrentView(CurrentViewOptions.SPORT)}>
                         View Sports
-                    </NavLink>
+                    </Button>
                 </NavItem>
                 <NavItem>
-                    <NavLink className='view-choice' onClick={() => setCurrentView(CurrentViewOptions.TEAM)}>
+                    <Button color={ComponentColor.SUCCESS} onClick={() => setCurrentView(CurrentViewOptions.TEAM)}>
                         View Teams
-                    </NavLink>
+                    </Button>
                 </NavItem>
                 <NavItem>
-                    <NavLink className='view-choice' onClick={() => setCurrentView(CurrentViewOptions.PLAYER)}>
+                    <Button color={ComponentColor.SUCCESS} onClick={() => setCurrentView(CurrentViewOptions.PLAYER)}>
                         View Players
-                    </NavLink>
+                    </Button>
                 </NavItem>
             </Nav>
             <Nav>
                 <NavItem>
-                    <NavLink className='view-choice' onClick={() => setCurrentView(CurrentViewOptions.LOGIN)}>
+                   <Button color={ComponentColor.SUCCESS} onClick={() => setCurrentView(CurrentViewOptions.LOGIN)}>
                         Manager Log In
-                    </NavLink>
+                    </Button>
                 </NavItem>
                 <NavItem>
-                    <NavLink className='view-choice' onClick={() => setCurrentView(CurrentViewOptions.REGISTRATION)}>
+                    <Button color={ComponentColor.SUCCESS} onClick={() => setCurrentView(CurrentViewOptions.REGISTRATION)}>
                         Manager Sign Up
-                    </NavLink>
+                    </Button>
                 </NavItem>
             </Nav>
         </Navbar>
