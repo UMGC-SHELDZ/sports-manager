@@ -1,2 +1,7 @@
+import IManager from "../interfaces/IManager";
+
 // For login responses
-export type AuthenticatedUser = { userId: string, token: string };
+export type AuthenticatedUser = {
+    user: IManager;
+    token: string 
+};

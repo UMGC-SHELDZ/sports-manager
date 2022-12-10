@@ -1,7 +1,8 @@
 @import './components/App.scss';
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import './components/HeaderBar/HeaderBar.scss';
-@import './components/MainNavbar/MainNavBar.scss';
+@import './components/Forms/Forms.scss';
+@import './components/HeaderBar/HeaderBar.scss';
 
 body {
   margin: 0;
@@ -15,4 +16,8 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.selectable-feature {
+  cursor: pointer;
 }

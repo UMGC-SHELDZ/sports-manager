@@ -1,5 +1,6 @@
 import React, { FormEvent, ReactElement, useState } from 'react';
 import { Table } from 'reactstrap';
+import * as _ from 'lodash';
 
 // Custom Components
 import AddFormOptions from '../AddFormComponents/AddFormOptions';
@@ -73,16 +74,14 @@ function AddTeamForm(): ReactElement {
                 </tr>
             </thead>
             <tr>
-                <td>
-                    <input value={teamName} onChange={handleTeamNameChange} />
-                </td>
-                <td>
-                    <input value={manager} onChange={handleManagerChange} />
-                </td>
-                <td>
-                    <input value={sport} onChange={handleSportChange} />
-                </td>
-                <AddFormOptions saveFn={handleSaveTeam} clearFn={handleClearTeamForm} />
+                <AddFormOptions
+                    saveFn={handleSaveTeam}
+                    deleteFn={_.noop}
+                    toggleEdit={_.noop}
+                    saveDisabled={false}
+                    isLoading={false}
+                    isEditMode={false}
+                />
             </tr>
         </Table>
     );

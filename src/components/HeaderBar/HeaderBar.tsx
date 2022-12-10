@@ -1,7 +1,11 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useContext } from 'react';
+import * as _ from 'lodash';
 
 // constants
 import { CurrentViewOptions, CurrentViewOptionStrings } from '../../common/constants/constants';
+
+// Context
+import { UserContext } from '../../providers/UserProvider';
 
 interface IHeaderBarProps {
     curViewOption: CurrentViewOptions;
@@ -11,6 +15,7 @@ interface IHeaderBarProps {
 }
 
 function HeaderBar({ curViewOption, sportName, teamName, managerName}: IHeaderBarProps): ReactElement {
+    const { user } = useContext(UserContext);
     /**
      * Constructs a breadcrumb item based on props
      * @returns {string} Constructed breadrumbitem string
@@ -18,41 +23,36 @@ function HeaderBar({ curViewOption, sportName, teamName, managerName}: IHeaderBa
     const renderHeader = (): ReactElement => {
         // Option for Teams
         if (curViewOption === CurrentViewOptions.SPORT) {
-            return <h3><strong>{CurrentViewOptionStrings[CurrentViewOptions.SPORT]}</strong></h3>;
+            return <h5><strong>{CurrentViewOptionStrings[CurrentViewOptions.SPORT]}</strong></h5>;
         }
 
         // Option for Teams
         if (curViewOption === CurrentViewOptions.TEAM) {
-            return <h3><strong>{CurrentViewOptionStrings[CurrentViewOptions.TEAM]}:</strong> {sportName}</h3>;
+            return <h5><strong>{CurrentViewOptionStrings[CurrentViewOptions.TEAM]}:</strong> {sportName}</h5>;
         }
 
         // Option for Players
         if (curViewOption === CurrentViewOptions.PLAYER) {
-            return <h3><strong>{CurrentViewOptionStrings[CurrentViewOptions.PLAYER]}:</strong> {teamName}, <strong>{CurrentViewOptionStrings[CurrentViewOptions.MANAGER]}:</strong> {managerName}</h3>
+            return <h5><strong>{CurrentViewOptionStrings[CurrentViewOptions.PLAYER]}:</strong> {teamName}, <strong>{CurrentViewOptionStrings[CurrentViewOptions.MANAGER]}:</strong> {managerName}</h5>
         }
 
         // Option for Registration
         if (curViewOption === CurrentViewOptions.REGISTRATION) {
-            return <h3><strong>{CurrentViewOptionStrings[CurrentViewOptions.REGISTRATION]}</strong></h3>;
-        }
-
-        // Option for Registration Success
-        if (curViewOption === CurrentViewOptions.REGISTRATION_SUCCESS) {
-            return <h3><strong>{CurrentViewOptionStrings[CurrentViewOptions.REGISTRATION_SUCCESS]}</strong></h3>;
+            return <h5><strong>{CurrentViewOptionStrings[CurrentViewOptions.REGISTRATION]}</strong></h5>;
         }
 
         // Option for Login
         if (curViewOption === CurrentViewOptions.LOGIN) {
-            return <h3><strong>{CurrentViewOptionStrings[CurrentViewOptions.LOGIN]}</strong></h3>;
+            return <h5><strong>{CurrentViewOptionStrings[CurrentViewOptions.LOGIN]}</strong></h5>;
         }
 
         // Option for Login Success
         if (curViewOption === CurrentViewOptions.LOGIN_SUCCESS) {
-            return <h3><strong>{CurrentViewOptionStrings[CurrentViewOptions.LOGIN_SUCCESS]}</strong></h3>;
+            return <h5><strong>{CurrentViewOptionStrings[CurrentViewOptions.LOGIN_SUCCESS]} {!_.isNil(user) ? user.userName : 'User'}!</strong></h5>;
         }
 
         // Implicitly return manager view
-        return <h3>Manager View</h3>;
+        return <h5>Manager View</h5>;
     }
 
     return (

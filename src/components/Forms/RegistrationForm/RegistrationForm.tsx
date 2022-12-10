@@ -1,4 +1,4 @@
-import React, { FormEvent, ReactElement, useEffect, useState } from 'react'
+import React, { FormEvent, ReactElement, useContext, useEffect, useState } from 'react'
 import * as _ from 'lodash';
 import { AxiosError } from 'axios';
 
@@ -7,10 +7,11 @@ import { ComponentColor, CurrentViewOptions, InputFieldTypes } from '../../../co
 import { validateName, validatePassword, validateUsername } from '../../../common/utils/validationUtil';
 import { Button, Col, Form, FormGroup, Row, Spinner, Toast, ToastBody, ToastHeader } from 'reactstrap';
 import TextInput from '../TextInput';
-import managerService from '../../../services/managerService';
+import managersService from '../../../services/managersService';
 import IManager from '../../../common/interfaces/IManager';
 import { configureToast } from '../../../common/utils/toastUtil';
 import IToastData from '../../../common/interfaces/IToastData';
+import { EntityContext } from '../../../providers/EntityProvider';
 
 // Props for RegistrationForm
 interface IRegistrationFormProps {
@@ -18,6 +19,9 @@ interface IRegistrationFormProps {
 }
 
 function RegistrationForm({ setCurrentView }: IRegistrationFormProps): ReactElement {
+    // To add manager option to global state
+    const { dispatch } = useContext(EntityContext);
+
     // Form State
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isValid, setIsValid] = useState<boolean>(false);
@@ -78,7 +82,7 @@ function RegistrationForm({ setCurrentView }: IRegistrationFormProps): ReactElem
         }
 
         // Create the new manager
-        const newManager: IManager | AxiosError = await managerService.addManager(newManagerData);
+        const newManager: IManager | AxiosError = await managersService.addManager(newManagerData);
 
         // If there is a server error, let the user know something went wrong with their request.
         if (newManager instanceof AxiosError) {
@@ -88,6 +92,12 @@ function RegistrationForm({ setCurrentView }: IRegistrationFormProps): ReactElem
             setIsLoading(false);
             return;
         }
+
+        // Add manager to state
+        dispatch({
+            type: 'ADD_MANAGER',
+            manager: newManager
+        });
 
         setIsLoading(false);
         setCurrentView(CurrentViewOptions.LOGIN)

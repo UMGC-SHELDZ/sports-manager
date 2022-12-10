@@ -1,6 +1,6 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import * as _ from 'lodash';
-import { Row, Table } from 'reactstrap';
+import { Row, Table, Toast, ToastBody, ToastHeader } from 'reactstrap';
 
 // Interfaces
 import ISport from '../../../common/interfaces/ISport';
@@ -11,6 +11,9 @@ import SportsTableRow from './SportsTableRow';
 // Hooks
 import { useAuthentication } from '../../../hooks/useAuthentication';
 import AddSportForm from './AddSportForm';
+import CollapsableForm from '../../Forms/CollapsableForm';
+import { ComponentColor } from '../../../common/constants/constants';
+import IToastData from '../../../common/interfaces/IToastData';
 
 interface ISportsTableProps {
     sports: Array<ISport>;
@@ -19,6 +22,17 @@ interface ISportsTableProps {
 function SportsTable({ sports }: ISportsTableProps): ReactElement {
     // Check authentication
     const isAuthenticated: boolean = useAuthentication();
+
+    // AddForm state
+    const [isAddFormOpen, setIsAddFormOpen] = useState<boolean>(false);
+
+    // Toast State
+    const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
+    const [toastData, setToastData] = useState<IToastData>({ toastIcon: ComponentColor.DANGER, toastHeader: 'Error', toastBody: 'Something went wrong' });
+
+    const handleToggleAddFormState = (): void => {
+        setIsAddFormOpen(!isAddFormOpen);
+    }
 
     /**
      * Renders a table body using props.
@@ -29,7 +43,7 @@ function SportsTable({ sports }: ISportsTableProps): ReactElement {
             <tbody>
                 {_.map(sports, (sport: ISport) => {
                     return (
-                        <SportsTableRow sport={sport} />
+                        <SportsTableRow sport={sport} setIsToastOpen={setIsToastOpen} setToastData={setToastData} />
                     )
                 })}
             </tbody>
@@ -40,10 +54,12 @@ function SportsTable({ sports }: ISportsTableProps): ReactElement {
     return (
         <>
             {isAuthenticated &&
-                <AddSportForm  />
+                <CollapsableForm isFormOpen={isAddFormOpen} toggleFn={handleToggleAddFormState}>
+                    <AddSportForm />
+                </CollapsableForm>
             }
             {_.isEmpty(sports) && (
-                <Row>
+                <Row className='mt-2'>
                     <h2>No Sports found. Please sign up as a manager to add a sport!</h2>
                 </Row>
             )}
@@ -67,6 +83,14 @@ function SportsTable({ sports }: ISportsTableProps): ReactElement {
                     <RenderTableBody />
                 </Table>
             )}
+            <Toast isOpen={isToastOpen}>
+                <ToastHeader icon={toastData.toastIcon} toggle={() => setIsToastOpen(false)}>
+                    {toastData.toastHeader}
+                </ToastHeader>
+                <ToastBody>
+                    {toastData.toastBody}
+                </ToastBody>
+            </Toast>
         </>
     )
 };
