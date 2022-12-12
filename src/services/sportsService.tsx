@@ -32,7 +32,7 @@ class SportsService {
     };
 
     /**
-     * Adds a new sport to the database.
+     * Updates a sport in the database.
      * @param {ISport} sport The sport object to add.
      * @returns {ISport} the sport object, with an id.
      */
