@@ -12,7 +12,8 @@ export enum CurrentViewOptions {
 // Enum for text input 
 export enum InputFieldTypes {
     TEXT = 'text',
-    PASSWORD = 'password'
+    PASSWORD = 'password',
+    SELECT = 'select'
 };
 
 // Enum for component color
@@ -25,6 +26,14 @@ export enum ComponentColor {
     INFO = 'info',
     LIGHT = 'light',
     DARK = 'dark'
+}
+
+// Enum for database entity types
+export enum EntityTypes {
+    SPORT = 'Sport',
+    TEAM = 'Team',
+    MANAGER = 'Manager',
+    PLAYER = 'Player'
 }
 
 // To use with enum to display on the HeaderBar

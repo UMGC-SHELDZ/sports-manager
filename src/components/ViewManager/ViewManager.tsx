@@ -1,15 +1,7 @@
 import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import { Row, Spinner } from 'reactstrap';
-import { CurrentViewOptions } from '../../common/constants/constants';
-import IManager from '../../common/interfaces/IManager';
-import IPlayer from '../../common/interfaces/IPlayer';
-import ISport from '../../common/interfaces/ISport';
-import ITeam from '../../common/interfaces/ITeam';
-import { EntityContext } from '../../providers/EntityProvider';
-import managersService from '../../services/managersService';
-import playersService from '../../services/playersService';
-import sportsService from '../../services/sportsService';
-import teamsService from '../../services/teamsService';
+
+// Custom Components
 import PlayersTable from '../DataTables/PlayersTable/PlayersTable';
 import SportsTable from '../DataTables/SportsTable/SportsTable';
 import TeamsTable from '../DataTables/TeamsTable/TeamsTable';
@@ -18,6 +10,23 @@ import RegistrationForm from '../Forms/RegistrationForm/RegistrationForm';
 import HeaderBar from '../HeaderBar/HeaderBar';
 import MainNavbar from '../MainNavbar/MainNavbar';
 
+// Interfaces
+import IManager from '../../common/interfaces/IManager';
+import IPlayer from '../../common/interfaces/IPlayer';
+import ISport from '../../common/interfaces/ISport';
+import ITeam from '../../common/interfaces/ITeam';
+
+// Utils
+import { CurrentViewOptions } from '../../common/constants/constants';
+
+// Services
+import managersService from '../../services/managersService';
+import playersService from '../../services/playersService';
+import sportsService from '../../services/sportsService';
+import teamsService from '../../services/teamsService';
+
+// State
+import { EntityContext } from '../../providers/EntityProvider';
 
 function ViewManager(): ReactElement {
     // Global State

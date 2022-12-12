@@ -4,16 +4,19 @@ import { Row, Table, Toast, ToastBody, ToastHeader } from 'reactstrap';
 
 // Interfaces
 import ISport from '../../../common/interfaces/ISport';
+import IToastData from '../../../common/interfaces/IToastData';
 
 // Custom Components
 import SportsTableRow from './SportsTableRow';
+import AddSportForm from './AddSportForm';
+import CollapsableForm from '../../Forms/CollapsableForm';
 
 // Hooks
 import { useAuthentication } from '../../../hooks/useAuthentication';
-import AddSportForm from './AddSportForm';
-import CollapsableForm from '../../Forms/CollapsableForm';
+
+// Utils
 import { ComponentColor } from '../../../common/constants/constants';
-import IToastData from '../../../common/interfaces/IToastData';
+
 
 interface ISportsTableProps {
     sports: Array<ISport>;
@@ -54,7 +57,7 @@ function SportsTable({ sports }: ISportsTableProps): ReactElement {
     return (
         <>
             {isAuthenticated &&
-                <CollapsableForm isFormOpen={isAddFormOpen} toggleFn={handleToggleAddFormState}>
+                <CollapsableForm isFormOpen={isAddFormOpen} label={'Add Sport Form'} toggleFn={handleToggleAddFormState}>
                     <AddSportForm />
                 </CollapsableForm>
             }
