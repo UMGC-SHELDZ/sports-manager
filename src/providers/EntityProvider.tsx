@@ -55,6 +55,7 @@ const reducer = (state: IEntityState, action: any) => {
                 sports: _.concat(state.sports, action.sport),
                 teams: state.teams,
                 players: state.players,
+                managers: state.managers,
                 isAppLoading: false
             };
         case 'UPDATE_SPORT':
@@ -63,6 +64,7 @@ const reducer = (state: IEntityState, action: any) => {
                 sports: _.concat(filteredSports, action.sport),
                 teams: state.teams,
                 players: state.players,
+                managers: state.managers,
                 isAppLoading: false
             };
         case 'DELETE_SPORT':
@@ -71,6 +73,33 @@ const reducer = (state: IEntityState, action: any) => {
                 sports: filteredSports,
                 teams: state.teams,
                 players: state.players,
+                managers: state.managers,
+                isAppLoading: false
+            };
+        case 'ADD_TEAM':
+            return {
+                sports: state.sports,
+                teams: _.concat(state.teams, action.team),
+                players: state.players,
+                managers: state.managers,
+                isAppLoading: false
+            };
+        case 'UPDATE_TEAM':
+            filteredTeams = _.filter(state.teams, (team) => team._id !== action.team._id);
+            return {
+                sports: state.sports,
+                teams: _.concat(filteredTeams, action.team),
+                players: state.players,
+                managers: state.managers,
+                isAppLoading: false
+            };
+        case 'DELETE_TEAM':
+            filteredTeams = _.filter(state.teams, (team) => team._id !== action.team._id);
+            return {
+                sports: state.sports,
+                teams: filteredTeams,
+                players: state.players,
+                managers: state.managers,
                 isAppLoading: false
             };
         default:

@@ -1,23 +1,28 @@
 import React, { FormEvent, ReactElement, useContext, useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBan, faFloppyDisk, faPenToSquare, faX } from '@fortawesome/free-solid-svg-icons'
 import * as _ from 'lodash';
+import { AxiosError } from 'axios';
+import { Col, Input, Row, Tooltip } from 'reactstrap';
 
 // Hooks
 import { useAuthentication } from '../../../hooks/useAuthentication';
+import { EntityContext } from '../../../providers/EntityProvider';
+import { UserContext } from '../../../providers/UserProvider';
 
 // Interfaces
 import ISport from '../../../common/interfaces/ISport';
-import { EntityContext } from '../../../providers/EntityProvider';
 import ITeam from '../../../common/interfaces/ITeam';
-import { Col, Input, Row, Tooltip } from 'reactstrap';
+
+// Custom Components
 import AddFormOptions from '../AddFormComponents/AddFormOptions';
+
+// Utils
 import { validateName } from '../../../common/utils/validationUtil';
 import { ComponentColor, InputFieldTypes } from '../../../common/constants/constants';
-import { AxiosError } from 'axios';
 import { configureToast } from '../../../common/utils/toastUtil';
+
+// Services
 import sportsService from '../../../services/sportsService';
-import { UserContext } from '../../../providers/UserProvider';
+
 
 interface ISportsTableRow {
     sport: ISport;

@@ -7,10 +7,11 @@ import AddSportForm from '../DataTables/SportsTable/AddSportForm';
 interface ICollapsableFormProps {
     children: ReactNode;
     isFormOpen: boolean;
+    label: string
     toggleFn: () => void;
 }
 
-function CollapsableForm({ children, isFormOpen, toggleFn }: ICollapsableFormProps): ReactElement {
+function CollapsableForm({ children, label, isFormOpen, toggleFn }: ICollapsableFormProps): ReactElement {
     return (
         <>
             <Row className='mt-3'>
@@ -19,14 +20,14 @@ function CollapsableForm({ children, isFormOpen, toggleFn }: ICollapsableFormPro
                             <p className='text-align-end'>
                                 <FontAwesomeIcon icon={faCircleMinus} onClick={toggleFn} className='selectable-feature' />
                                 {' '}
-                                Hide Add Sport Form
+                                Hide {label}
                             </p>
                     }
                     {!isFormOpen &&
                         <p className='text-align-end'>
                             <FontAwesomeIcon icon={faCirclePlus} onClick={toggleFn} className='selectable-feature' />
                             {' '}
-                            Show Add Sport Form
+                            Show {label}
                         </p>
                     }
                 </Col>

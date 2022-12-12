@@ -2,17 +2,26 @@
 import React, { FormEvent, ReactElement, useContext, useEffect, useState } from 'react';
 import * as _ from 'lodash';
 import { Button, Col, Form, FormGroup, Row, Spinner, Table, Toast, ToastBody, ToastHeader } from 'reactstrap';
-import { ComponentColor, InputFieldTypes } from '../../../common/constants/constants';
-import IToastData from '../../../common/interfaces/IToastData';
-import { validateName } from '../../../common/utils/validationUtil';
-import TextInput from '../../Forms/TextInput';
-import { EntityContext } from '../../../providers/EntityProvider';
-import ISport from '../../../common/interfaces/ISport';
 import { AxiosError } from 'axios';
-import sportsService from '../../../services/sportsService';
-import { configureToast } from '../../../common/utils/toastUtil';
+
+// Custom Components
+import TextInput from '../../Forms/TextInput';
+
+// State
+import { EntityContext } from '../../../providers/EntityProvider';
 import { UserContext } from '../../../providers/UserProvider';
 
+// Interfaces
+import IToastData from '../../../common/interfaces/IToastData';
+import ISport from '../../../common/interfaces/ISport';
+
+// Utils
+import { ComponentColor, InputFieldTypes } from '../../../common/constants/constants';
+import { configureToast } from '../../../common/utils/toastUtil';
+import { validateName } from '../../../common/utils/validationUtil';
+
+// Services
+import sportsService from '../../../services/sportsService';
 
 function AddSportForm(): ReactElement {
     // global state
