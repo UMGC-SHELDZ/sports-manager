@@ -6,6 +6,7 @@ import { AxiosError } from 'axios';
 
 // Custom Components
 import TextInput from '../../Forms/TextInput';
+import AddFormButtons from '../AddFormComponents/AddFormButtons';
 
 // State
 import { EntityContext } from '../../../providers/EntityProvider';
@@ -107,34 +108,12 @@ function AddSportForm(): ReactElement {
                             disabled={isLoading}
                             validationText={'Name of sport must only contain letters and be of a length between 3 and 20 characters'}
                         />
-                        <FormGroup
-                            check
-                            row
-                        >
-                            <Col
-                                sm={{
-                                    offset: 1,
-                                    size: 10
-                                }}
-                            >
-                                {isLoading
-                                    ?
-                                        <Spinner>
-                                            Processing request...
-                                        </Spinner>
-                                    :
-                                    <>
-                                        <Button color={ComponentColor.PRIMARY} onClick={handleSaveSport} disabled={!isValid}>
-                                            Submit
-                                        </Button>
-                                        &nbsp;
-                                        <Button color={ComponentColor.SECONDARY} onClick={clearForm}>
-                                            Clear Form
-                                        </Button>
-                                    </>
-                                }
-                            </Col>
-                        </FormGroup>
+                        <AddFormButtons
+                            isLoading={isLoading}
+                            onSubmit={handleSaveSport}
+                            onCancel={clearForm}
+                            isDisabled={!isValid}
+                        />
                     </Form>
                 </Col>
             </Row>

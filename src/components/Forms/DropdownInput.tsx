@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import React, { ChangeEvent, ChangeEventHandler, ReactElement, useState } from 'react';
-import { FormGroup, Label, Col, Input, Tooltip } from 'reactstrap';
+import React, { ChangeEvent, ReactElement } from 'react';
+import { FormGroup, Label, Col, Input } from 'reactstrap';
 
 // Utils
 import { EntityTypes, InputFieldTypes } from '../../common/constants/constants';

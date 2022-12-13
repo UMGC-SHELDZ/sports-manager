@@ -20,9 +20,10 @@ import { ComponentColor } from '../../../common/constants/constants';
 
 interface ISportsTableProps {
     sports: Array<ISport>;
+    currentViewHandler: Function;
 }
 
-function SportsTable({ sports }: ISportsTableProps): ReactElement {
+function SportsTable({ currentViewHandler, sports }: ISportsTableProps): ReactElement {
     // Check authentication
     const isAuthenticated: boolean = useAuthentication();
 
@@ -46,7 +47,7 @@ function SportsTable({ sports }: ISportsTableProps): ReactElement {
             <tbody>
                 {_.map(sports, (sport: ISport) => {
                     return (
-                        <SportsTableRow sport={sport} setIsToastOpen={setIsToastOpen} setToastData={setToastData} />
+                        <SportsTableRow sport={sport} setIsToastOpen={setIsToastOpen} setToastData={setToastData} currentViewHandler={currentViewHandler} />
                     )
                 })}
             </tbody>
@@ -63,7 +64,7 @@ function SportsTable({ sports }: ISportsTableProps): ReactElement {
             }
             {_.isEmpty(sports) && (
                 <Row className='mt-2'>
-                    <h2>No Sports found. Please sign up as a manager to add a sport!</h2>
+                    <h2>No Sports found. Please sign in as a manager to add a sport!</h2>
                 </Row>
             )}
             {!_.isEmpty(sports) && (
