@@ -24,6 +24,8 @@ import { configureToast } from '../../../common/utils/toastUtil';
 // Services
 import teamsService from '../../../services/teamsService';
 import IManager from '../../../common/interfaces/IManager';
+import TableInputText from '../../Forms/TableInputText';
+import TableDropdownInput from '../../Forms/TableDropdownInput';
 
 interface ITeamsTableRowProps {
     team: ITeam;
@@ -187,97 +189,37 @@ function TeamsTableRow({ team, setIsToastOpen, setToastData }: ITeamsTableRowPro
     return (
         <tr key={team._id}>
             <th scope='row'>
-                <Row className='justify-content-center'>
-                    <Col sm={12}>
-                        {isEditMode &&
-                            <>
-                                <Input
-                                    id={`Tooltip-${team._id}`}
-                                    type={InputFieldTypes.TEXT}
-                                    value={teamName}
-                                    onChange={handleTeamNameChange}
-                                    valid={validateName(teamName)}
-                                    invalid={!validateName(teamName)}
-                                />
-                                <Tooltip
-                                    placement={'top'}
-                                    isOpen={tooltipOpen}
-                                    target={`Tooltip-${team._id}`}
-                                    toggle={toggle}
-                                >
-                                    Team name must be only letters with a length between 2 and 20 characters.
-                                </Tooltip>
-                            </>
-                        }
-                        {!isEditMode &&
-                            <>
-                                {teamName}
-                            </>
-                        }
-                    </Col>
-                </Row>
+                <TableInputText
+                    id={`${team._id}-teamNameInput`}
+                    invalid={!validateName(teamName)}
+                    isEditMode={isEditMode}
+                    onChange={handleTeamNameChange}
+                    tooltipText='Team name must be only letters with a length between 2 and 20 characters.'
+                    value={teamName}
+                    valid={validateName(teamName)}
+                />
             </th>
             <td>
-                <Row className='justify-content-center'>
-                    <Col sm={12}>
-                        {isEditMode &&
-                            <>
-                                <Input
-                                    type={InputFieldTypes.SELECT}
-                                    onChange={handleSportSelect}
-                                    value={sport}
-                                >
-                                    <option id='' value=''>
-                                        No Sport
-                                    </option>
-                                    {_.map(sports, (sport) => {
-                                        return (
-                                            <option id={sport._id} value={sport._id}>
-                                                {sport.sportName}
-                                            </option>
-                                        )
-                                    })}
-                                </Input>
-                            </>
-                        }
-                        {!isEditMode &&
-                            <>
-                                {!_.isEmpty(sportName) ? sportName : 'No Sport'}
-                            </>
-                        }
-                    </Col>
-                </Row>
+                <TableDropdownInput
+                    cellText={sportName}
+                    entity={EntityTypes.SPORT}
+                    id={`${team._id}-sportSelect`}
+                    isEditMode={isEditMode}
+                    onChange={handleSportSelect}
+                    options={sports}
+                    value={sport}
+                />
             </td>
             <td>
-                <Row className='justify-content-center'>
-                    <Col sm={12}>
-                        {isEditMode &&
-                            <>
-                                <Input
-                                    type={InputFieldTypes.SELECT}
-                                    onChange={handleManagerSelect}
-                                    value={manager}
-                                >
-                                    <option id='' value=''>
-                                        No Manager
-                                    </option>
-                                    {_.map(managers, (manager) => {
-                                        return (
-                                            <option id={manager._id} value={manager._id}>
-                                                {manager.firstName} {manager.lastName}
-                                            </option>
-                                        )
-                                    })}
-                                </Input>
-                            </>
-                        }
-                        {!isEditMode &&
-                            <>
-                                {!_.isEmpty(managerName) ? managerName : 'No Manager'}
-                            </>
-                        }
-                    </Col>
-                </Row>
+                <TableDropdownInput
+                    cellText={managerName}
+                    entity={EntityTypes.MANAGER}
+                    id={`${team._id}-managerSelect`}
+                    isEditMode={isEditMode}
+                    onChange={handleManagerSelect}
+                    options={managers}
+                    value={manager}
+                />
             </td>
             <td>
                 {numPlayers}
