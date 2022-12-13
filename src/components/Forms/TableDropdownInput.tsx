@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import React, { ChangeEvent, ReactElement } from'react';
-import { Row, Col, Input } from 'reactstrap';
+import { Row, Col, Input, Button } from 'reactstrap';
 
 // Utils
-import { EntityTypes, InputFieldTypes } from '../../common/constants/constants';
+import { ComponentColor, CurrentViewOptions, EntityTypes, InputFieldTypes } from '../../common/constants/constants';
 
 // Interfaces
 import IManager from '../../common/interfaces/IManager';
@@ -12,15 +12,17 @@ import ITeam from '../../common/interfaces/ITeam';
 
 interface ITableDropdownInputProps {
     cellText: string;
+    currentViewHandler?: Function;
     entity: EntityTypes;
     id: string;
     isEditMode: boolean;
+    linkView?: CurrentViewOptions;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     options: Array<ITeam | ISport | IManager>;
     value: string;
 }
 
-function TableDropdownInput({ cellText, entity, id, isEditMode, onChange, options, value}: ITableDropdownInputProps): ReactElement {
+function TableDropdownInput({ cellText, currentViewHandler, entity, id, isEditMode, linkView, onChange, options, value}: ITableDropdownInputProps): ReactElement {
     return (
         <Row className='justify-content-center'>
             <Col sm={12}>
@@ -47,10 +49,18 @@ function TableDropdownInput({ cellText, entity, id, isEditMode, onChange, option
                         </Input>
                     </>
                 }
-                {!isEditMode &&
+                {!isEditMode && _.isNil(currentViewHandler) &&
                     <>
                         {!_.isEmpty(cellText) ? cellText : `No ${entity}`}
                     </>
+                }
+                 {(!isEditMode && !_.isNil(currentViewHandler)) &&
+                    <Button
+                        color={ComponentColor.LINK}
+                        onClick={
+                            () => currentViewHandler(linkView, value)
+                        }
+                    >{cellText}</Button>
                 }
             </Col>
         </Row>

@@ -1,22 +1,25 @@
 import React, { FormEvent, ReactElement, useState } from 'react';
-import { Row, Col, Input, Tooltip } from 'reactstrap';
+import { Row, Col, Input, Tooltip, Button } from 'reactstrap';
 import * as _ from 'lodash';
 
 // Utils
-import { InputFieldTypes } from '../../common/constants/constants';
+import { ComponentColor, CurrentViewOptions, InputFieldTypes } from '../../common/constants/constants';
 
 interface ITableInputTextProps {
-    id: string;
+    currentViewHandler?: Function;
+    id?: string;
     invalid: boolean;
     isEditMode: boolean;
     isSalary?: boolean;
+    linkView?: CurrentViewOptions
     onChange: (e: FormEvent<HTMLInputElement>) => void;
+    tooltipId: string;
     tooltipText: string;
     value: string;
     valid: boolean;
 }
 
-function TableInputText({ id, invalid, isEditMode, isSalary, onChange, tooltipText, value, valid}: ITableInputTextProps): ReactElement {
+function TableInputText({ currentViewHandler, id, invalid, isEditMode, isSalary, linkView, onChange, tooltipId, tooltipText, value, valid}: ITableInputTextProps): ReactElement {
     // Tooltip state
     const [tooltipOpen, setTooltipOpen] = useState<boolean>(false);
 
@@ -35,7 +38,7 @@ function TableInputText({ id, invalid, isEditMode, isSalary, onChange, tooltipTe
                 {isEditMode &&
                     <>
                         <Input
-                            id={`Tooltip-${id}`}
+                            id={`Tooltip-${tooltipId}`}
                             type={InputFieldTypes.TEXT}
                             value={value}
                             onChange={onChange}
@@ -45,17 +48,25 @@ function TableInputText({ id, invalid, isEditMode, isSalary, onChange, tooltipTe
                         <Tooltip
                             placement={'top'}
                             isOpen={tooltipOpen}
-                            target={`Tooltip-${id}`}
+                            target={`Tooltip-${tooltipId}`}
                             toggle={toggle}
                         >
                             {tooltipText}
                         </Tooltip>
                     </>
                 }
-                {(!isEditMode && !isSalary) &&
+                {(!isEditMode && !isSalary && _.isNil(currentViewHandler) && _.isNil(id)) &&
                     <>
                         {!_.isEmpty(value) ? value : 'No Information'}
                     </>
+                }
+                {(!isEditMode && !isSalary && !_.isNil(currentViewHandler) && !_.isNil(id)) &&
+                    <Button
+                        color={ComponentColor.LINK}
+                        onClick={
+                            () => currentViewHandler(linkView, id)
+                        }
+                    >{value}</Button>
                 }
                 {(!isEditMode && isSalary) &&
                     <>

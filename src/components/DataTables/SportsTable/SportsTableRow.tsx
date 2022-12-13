@@ -1,7 +1,6 @@
 import React, { FormEvent, ReactElement, useContext, useEffect, useState } from 'react';
 import * as _ from 'lodash';
 import { AxiosError } from 'axios';
-import { Col, Input, Row, Tooltip } from 'reactstrap';
 
 // Hooks
 import { useAuthentication } from '../../../hooks/useAuthentication';
@@ -17,7 +16,7 @@ import AddFormOptions from '../AddFormComponents/AddFormOptions';
 
 // Utils
 import { validateName } from '../../../common/utils/validationUtil';
-import { ComponentColor, InputFieldTypes } from '../../../common/constants/constants';
+import { ComponentColor, CurrentViewOptions } from '../../../common/constants/constants';
 import { configureToast } from '../../../common/utils/toastUtil';
 
 // Services
@@ -26,12 +25,13 @@ import TableInputText from '../../Forms/TableInputText';
 
 
 interface ISportsTableRow {
+    currentViewHandler: Function;
     sport: ISport;
     setIsToastOpen: Function;
     setToastData: Function;
 }
 
-function SportsTableRow({ sport, setIsToastOpen, setToastData }: ISportsTableRow): ReactElement {
+function SportsTableRow({ currentViewHandler, sport, setIsToastOpen, setToastData }: ISportsTableRow): ReactElement {
     // Check authentication
     const isAuthenticated: boolean = useAuthentication();
 
@@ -49,30 +49,23 @@ function SportsTableRow({ sport, setIsToastOpen, setToastData }: ISportsTableRow
     // Form state
     const [isLoading, setIsLoading] = useState(false);
 
-    // Tooltip state
-    const [tooltipOpen, setTooltipOpen] = useState<boolean>(false);
-
-    // Toggler function
-    const toggle = () => setTooltipOpen(!tooltipOpen);
-
-
     // Sets the number of teams when a sport is passed into a table row
     useEffect(() => {
+        /**
+         * Helper function to get the number of teams by sport
+         */
+        const getNumTeams = (): void => {
+            const numTeamsInSport: Array<ITeam> = _.filter(teams, (team) => team.sport === sport._id);
+            setNumTeams(_.size(numTeamsInSport));
+        }
+
         getNumTeams();
-    }, [sport]);
+    }, [sport, teams]);
 
     const toggleIsEditMode = () => {
         setSportName(sport.sportName);
         setIsEditMode(!isEditMode);
     };
-
-    /**
-     * Helper function to get the number of teams by sport
-     */
-    const getNumTeams = (): void => {
-        const numTeamsInSport: Array<ITeam> = _.filter(teams, (team) => team.sport === sport._id);
-        setNumTeams(_.size(numTeamsInSport));
-    }
 
     // Handlers for UI actions
     /**
@@ -146,10 +139,13 @@ function SportsTableRow({ sport, setIsToastOpen, setToastData }: ISportsTableRow
         <tr key={sport._id}>
             <th scope='row'>
                 <TableInputText
-                    id={`${sport._id}-sportNameInput`}
+                    currentViewHandler={currentViewHandler}
+                    id={sport._id as string}
                     invalid={!validateName(sportName)}
                     isEditMode={isEditMode}
+                    linkView={CurrentViewOptions.TEAM}
                     onChange={handleSportNameChange}
+                    tooltipId={`${sport._id}-sportNameInput`}
                     tooltipText='Sport name must be only letters with a length between 2 and 20 characters.'
                     value={sportName}
                     valid={validateName(sportName)}

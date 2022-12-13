@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import * as _ from 'lodash';
 import { Row, Table, Toast, ToastBody, ToastHeader } from 'reactstrap';
 
@@ -19,9 +19,10 @@ import IPlayer from '../../../common/interfaces/IPlayer';
 
 interface IPlayersTable {
     players: Array<IPlayer>;
+    currentViewHandler: Function;
 }
 
-function PlayersTable({ players }: IPlayersTable): ReactElement {
+function PlayersTable({ currentViewHandler, players }: IPlayersTable): ReactElement {
     // Check authentication
     const isAuthenticated: boolean = useAuthentication();
 
@@ -45,7 +46,7 @@ function PlayersTable({ players }: IPlayersTable): ReactElement {
             <tbody>
                 {_.map(players, (player: IPlayer) => {
                     return (
-                        <PlayersTableRow player={player} setIsToastOpen={setIsToastOpen} setToastData={setToastData} />
+                        <PlayersTableRow player={player} setIsToastOpen={setIsToastOpen} setToastData={setToastData} currentViewHandler={currentViewHandler}/>
                     )
                 })}
             </tbody>
