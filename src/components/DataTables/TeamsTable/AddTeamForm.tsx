@@ -1,11 +1,12 @@
 
 import React, { ChangeEvent, FormEvent, ReactElement, useContext, useEffect, useState } from 'react';
 import * as _ from 'lodash';
-import { Button, Col, Form, FormGroup, Input, Row, Spinner, Table, Toast, ToastBody, ToastHeader } from 'reactstrap';
+import { Col, Form, Row, Toast, ToastBody, ToastHeader } from 'reactstrap';
 import { AxiosError } from 'axios';
 
 // Custom Components
 import TextInput from '../../Forms/TextInput';
+import AddFormButtons from '../AddFormComponents/AddFormButtons';
 
 // State
 import { EntityContext } from '../../../providers/EntityProvider';
@@ -14,6 +15,8 @@ import { UserContext } from '../../../providers/UserProvider';
 // Interfaces
 import IToastData from '../../../common/interfaces/IToastData';
 import ITeam from '../../../common/interfaces/ITeam';
+import ISport from '../../../common/interfaces/ISport';
+import IManager from '../../../common/interfaces/IManager';
 
 // Utils
 import { ComponentColor, EntityTypes, InputFieldTypes } from '../../../common/constants/constants';
@@ -23,8 +26,6 @@ import { validateName } from '../../../common/utils/validationUtil';
 // Services
 import teamsService from '../../../services/teamsService';
 import DropdownInput from '../../Forms/DropdownInput';
-import ISport from '../../../common/interfaces/ISport';
-import IManager from '../../../common/interfaces/IManager';
 
 function AddTeamForm(): ReactElement {
     // global state
@@ -119,6 +120,8 @@ function AddTeamForm(): ReactElement {
      */
     const clearForm = (): void => {
         setTeamName('');
+        setSportId('');
+        setManagerId('');
     };
 
     return (
@@ -158,34 +161,12 @@ function AddTeamForm(): ReactElement {
                             entityType={EntityTypes.MANAGER}
                             selectedValue={managerId}
                         />
-                        <FormGroup
-                            check
-                            row
-                        >
-                            <Col
-                                sm={{
-                                    offset: 1,
-                                    size: 10
-                                }}
-                            >
-                                {isLoading
-                                    ?
-                                        <Spinner>
-                                            Processing request...
-                                        </Spinner>
-                                    :
-                                    <>
-                                        <Button color={ComponentColor.PRIMARY} onClick={handleSaveTeam} disabled={!isValid}>
-                                            Submit
-                                        </Button>
-                                        &nbsp;
-                                        <Button color={ComponentColor.SECONDARY} onClick={clearForm}>
-                                            Clear Form
-                                        </Button>
-                                    </>
-                                }
-                            </Col>
-                        </FormGroup>
+                        <AddFormButtons
+                            isLoading={isLoading}
+                            onSubmit={handleSaveTeam}
+                            onCancel={clearForm}
+                            isDisabled={!isValid}
+                        />
                     </Form>
                 </Col>
             </Row>

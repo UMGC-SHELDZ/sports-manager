@@ -15,7 +15,7 @@ class TeamService {
      public async add(team: ITeam, token: string): Promise<ITeam> {
         // Try/catch to ensure errors are handled
         try {
-            const sportResp: AxiosResponse = await axios.post(
+            const teamResp: AxiosResponse = await axios.post(
                 `${baseApiUrl}/teams`,
                 team,
                 { 
@@ -24,7 +24,7 @@ class TeamService {
                     }
                 }
             );
-            return sportResp.data;
+            return teamResp.data;
         } catch (e: any) {
             return e;
         };

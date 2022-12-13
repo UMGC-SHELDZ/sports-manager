@@ -6,6 +6,7 @@ import { AxiosError } from 'axios';
 
 // Custom Components
 import TextInput from '../../Forms/TextInput';
+import AddFormButtons from '../AddFormComponents/AddFormButtons';
 
 // State
 import { EntityContext } from '../../../providers/EntityProvider';
@@ -106,6 +107,12 @@ function AddSportForm(): ReactElement {
                             invalid={_.size(sportName) > 0 && !validateName(sportName)}
                             disabled={isLoading}
                             validationText={'Name of sport must only contain letters and be of a length between 3 and 20 characters'}
+                        />
+                        <AddFormButtons
+                            isLoading={isLoading}
+                            onSubmit={handleSaveSport}
+                            onCancel={clearForm}
+                            isDisabled={!isValid}
                         />
                         <FormGroup
                             check

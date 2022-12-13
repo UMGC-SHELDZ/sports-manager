@@ -102,7 +102,33 @@ const reducer = (state: IEntityState, action: any) => {
                 managers: state.managers,
                 isAppLoading: false
             };
-        default:
+        case 'ADD_PLAYER':
+            return {
+                sports: state.sports,
+                teams: state.teams,
+                players: _.concat(state.players, action.player),
+                managers: state.managers,
+                isAppLoading: false
+            };
+        case 'UPDATE_PLAYER':
+            filteredPlayers = _.filter(state.players, (player) => player._id !== action.player._id);
+            return {
+                sports: state.sports,
+                teams: state.teams,
+                players: _.concat(filteredPlayers, action.player),
+                managers: state.managers,
+                isAppLoading: false
+            };
+        case 'DELETE_PLAYER':
+            filteredPlayers = _.filter(state.players, (player) => player._id !== action.player._id);
+            return {
+                sports: state.sports,
+                teams: state.teams,
+                players: filteredPlayers,
+                managers: state.managers,
+                isAppLoading: false
+            };
+    default:
             return state;
     }
 };

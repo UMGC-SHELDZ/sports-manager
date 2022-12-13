@@ -22,6 +22,7 @@ import { configureToast } from '../../../common/utils/toastUtil';
 
 // Services
 import sportsService from '../../../services/sportsService';
+import TableInputText from '../../Forms/TableInputText';
 
 
 interface ISportsTableRow {
@@ -82,7 +83,8 @@ function SportsTableRow({ sport, setIsToastOpen, setToastData }: ISportsTableRow
         setSportName(e.currentTarget.value);
     }
 
-    // PLACEHOLDER FUNCTIONS
+    // Service handlers
+
     /**
      * Handler to delete a team
      */
@@ -143,35 +145,15 @@ function SportsTableRow({ sport, setIsToastOpen, setToastData }: ISportsTableRow
     return (
         <tr key={sport._id}>
             <th scope='row'>
-                <Row className='justify-content-center'>
-                    <Col sm={4}>
-                        {isEditMode &&
-                            <>
-                                <Input
-                                    id={`Tooltip-${sport._id}`}
-                                    type={InputFieldTypes.TEXT}
-                                    value={sportName}
-                                    onChange={handleSportNameChange}
-                                    valid={validateName(sportName)}
-                                    invalid={!validateName(sportName)}
-                                />
-                                <Tooltip
-                                    placement={'top'}
-                                    isOpen={tooltipOpen}
-                                    target={`Tooltip-${sport._id}`}
-                                    toggle={toggle}
-                                >
-                                    Sport name must be only letters with a length between 2 and 20 characters.
-                                </Tooltip>
-                            </>
-                        }
-                        {!isEditMode &&
-                            <>
-                                {sportName}
-                            </>
-                        }
-                    </Col>
-                </Row>
+                <TableInputText
+                    id={`${sport._id}-sportNameInput`}
+                    invalid={!validateName(sportName)}
+                    isEditMode={isEditMode}
+                    onChange={handleSportNameChange}
+                    tooltipText='Sport name must be only letters with a length between 2 and 20 characters.'
+                    value={sportName}
+                    valid={validateName(sportName)}
+                />
             </th>
             <td>
                 {numTeams}

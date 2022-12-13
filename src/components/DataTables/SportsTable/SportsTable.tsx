@@ -63,7 +63,7 @@ function SportsTable({ sports }: ISportsTableProps): ReactElement {
             }
             {_.isEmpty(sports) && (
                 <Row className='mt-2'>
-                    <h2>No Sports found. Please sign up as a manager to add a sport!</h2>
+                    <h2>No Sports found. Please sign in as a manager to add a sport!</h2>
                 </Row>
             )}
             {!_.isEmpty(sports) && (

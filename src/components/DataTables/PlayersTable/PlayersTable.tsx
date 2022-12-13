@@ -1,23 +1,41 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import * as _ from 'lodash';
-import { Row, Table } from 'reactstrap';
+import { Row, Table, Toast, ToastBody, ToastHeader } from 'reactstrap';
 
 // Interfaces
-import IPlayer from '../../../common/interfaces/IPlayer';
+import IToastData from '../../../common/interfaces/IToastData';
 
-// Hooks
-import { useAuthentication } from '../../../hooks/useAuthentication';
+// Custom Components
+import CollapsableForm from '../../Forms/CollapsableForm';
 import PlayersTableRow from './PlayersTableRow';
 import AddPlayerForm from './AddPlayerForm';
 
-interface IPlayersTableProps {
+// Hooks
+import { useAuthentication } from '../../../hooks/useAuthentication';
+
+// Utils
+import { ComponentColor } from '../../../common/constants/constants';
+import IPlayer from '../../../common/interfaces/IPlayer';
+
+interface IPlayersTable {
     players: Array<IPlayer>;
 }
 
-function PlayersTable({ players }: IPlayersTableProps): ReactElement {
+function PlayersTable({ players }: IPlayersTable): ReactElement {
     // Check authentication
     const isAuthenticated: boolean = useAuthentication();
-    
+
+    // AddForm state
+    const [isAddFormOpen, setIsAddFormOpen] = useState<boolean>(false);
+
+    // Toast State
+    const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
+    const [toastData, setToastData] = useState<IToastData>({ toastIcon: ComponentColor.DANGER, toastHeader: 'Error', toastBody: 'Something went wrong' });
+
+    const handleToggleAddFormState = (): void => {
+        setIsAddFormOpen(!isAddFormOpen);
+    }
+
     /**
      * Renders a table body using props.
      * @returns {ReactElement} The rendered table body.
@@ -25,23 +43,26 @@ function PlayersTable({ players }: IPlayersTableProps): ReactElement {
     const RenderTableBody = (): ReactElement => {
         return (
             <tbody>
-                {_.map(players, (player) => {
+                {_.map(players, (player: IPlayer) => {
                     return (
-                        <PlayersTableRow player={player} />
+                        <PlayersTableRow player={player} setIsToastOpen={setIsToastOpen} setToastData={setToastData} />
                     )
                 })}
             </tbody>
         );
     };
 
+    // Renders the table if props are provided for sports, otherwise renders a disclaimer that no sports are present.
     return (
         <>
             {isAuthenticated &&
-                <AddPlayerForm />
+                <CollapsableForm isFormOpen={isAddFormOpen} label={'Add Player Form'} toggleFn={handleToggleAddFormState}>
+                    <AddPlayerForm />
+                </CollapsableForm>
             }
             {_.isEmpty(players) && (
-                <Row>
-                    <h2>No players found for this team. Please sign up as a manager to create a player!</h2>
+                <Row className='mt-2'>
+                    <h2>No Players found. Please sign in as a manager to add a player!</h2>
                 </Row>
             )}
             {!_.isEmpty(players) && (
@@ -55,17 +76,20 @@ function PlayersTable({ players }: IPlayersTableProps): ReactElement {
                                 First Name
                             </th>
                             <th>
+                                Team
+                            </th>
+                            <th>
                                 Position
                             </th>
                             <th>
                                 Player Number
                             </th>
                             <th>
-                                Player Salary
+                                Salary
                             </th>
                             {isAuthenticated && 
                                 <th>
-                                    Manage Team
+                                    Manage Player
                                 </th>
                             }
                         </tr>
@@ -73,8 +97,16 @@ function PlayersTable({ players }: IPlayersTableProps): ReactElement {
                     <RenderTableBody />
                 </Table>
             )}
+            <Toast isOpen={isToastOpen}>
+                <ToastHeader icon={toastData.toastIcon} toggle={() => setIsToastOpen(false)}>
+                    {toastData.toastHeader}
+                </ToastHeader>
+                <ToastBody>
+                    {toastData.toastBody}
+                </ToastBody>
+            </Toast>
         </>
-    );
+    )
 };
 
 export default PlayersTable;
