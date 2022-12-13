@@ -15,6 +15,8 @@ import IPlayer from '../../../common/interfaces/IPlayer';
 
 // Custom Components
 import AddFormOptions from '../AddFormComponents/AddFormOptions';
+import TableInputText from '../../Forms/TableInputText';
+import TableDropdownInput from '../../Forms/TableDropdownInput';
 
 // Utils
 import { validateName } from '../../../common/utils/validationUtil';
@@ -24,8 +26,6 @@ import { configureToast } from '../../../common/utils/toastUtil';
 // Services
 import teamsService from '../../../services/teamsService';
 import IManager from '../../../common/interfaces/IManager';
-import TableInputText from '../../Forms/TableInputText';
-import TableDropdownInput from '../../Forms/TableDropdownInput';
 
 interface ITeamsTableRowProps {
     team: ITeam;
