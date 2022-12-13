@@ -116,7 +116,8 @@ function TeamsTableRow({ team, setIsToastOpen, setToastData }: ITeamsTableRowPro
         setManager(e.currentTarget.value);
     };
 
-    // PLACEHOLDER FUNCTIONS
+    // Service handlers
+
     /**
      * Handler to delete a team
      */

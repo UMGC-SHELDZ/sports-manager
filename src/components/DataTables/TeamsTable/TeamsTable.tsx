@@ -63,7 +63,7 @@ function TeamsTable({ teams }: ITeamsTableProps): ReactElement {
             }
             {_.isEmpty(teams) && (
                 <Row className='mt-2'>
-                    <h2>No Teams found. Please sign up as a manager to add a team!</h2>
+                    <h2>No Teams found. Please sign in as a manager to add a team!</h2>
                 </Row>
             )}
             {!_.isEmpty(teams) && (

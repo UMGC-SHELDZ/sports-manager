@@ -82,7 +82,8 @@ function SportsTableRow({ sport, setIsToastOpen, setToastData }: ISportsTableRow
         setSportName(e.currentTarget.value);
     }
 
-    // PLACEHOLDER FUNCTIONS
+    // Service handlers
+
     /**
      * Handler to delete a team
      */

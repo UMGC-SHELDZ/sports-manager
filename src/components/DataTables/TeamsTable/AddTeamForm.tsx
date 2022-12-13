@@ -119,6 +119,8 @@ function AddTeamForm(): ReactElement {
      */
     const clearForm = (): void => {
         setTeamName('');
+        setSportId('');
+        setManagerId('');
     };
 
     return (

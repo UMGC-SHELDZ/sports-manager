@@ -42,10 +42,36 @@ const validateName = (name: string): boolean => {
  * @param {string} username the username to be validated.
  * @returns {boolean} if no validation errors detected, returns true, else returns false.
  */
- const validateUsername = (username: string): boolean => {
-    // If valid, returns true, else false
-    return _.size(username) > 6 && _.size(username) < 20;
+const validateUsername = (username: string): boolean => {
+    const validationParams: { [key: string]: boolean } = {
+        validLength: _.size(username) > 6 && _.size(username) < 20,
+        noSpaces: username.indexOf(' ') < 0
+    }
+    
+    // Check for invalid values
+    const invalid: Array<boolean> = _.filter(validationParams, (value, key) => value === false);
+
+    // If the invalid is an empty array, no validation errors.
+    return _.isEmpty(invalid);
 };
+
+/**
+ * Validates a position for letters, numbers and spaces on, as well as the proper length.
+ * @param {string} position the position to be validated
+ * @returns {boolean} if no validation errors detected, returns true, else returns false.
+ */
+const validatePosition = (position: string): boolean => {
+    const validationParams: { [key: string]: boolean } = {
+        validLength: _.size(position) > 1 && _.size(position) <20,
+        lettersNumbersSpacesOny: /^[A-Za-z0-9][A-Za-z0-9\s]*$/.test(position)
+    }
+
+    // Check for invalid values
+    const invalid: Array<boolean> = _.filter(validationParams, (value, key) => value === false);
+
+    // If the invalid is an empty array, no validation errors.
+    return _.isEmpty(invalid);
+}
 
 /**
  * Validates a salary for numeric.
@@ -56,7 +82,7 @@ const validateName = (name: string): boolean => {
     // Try/catch for casting errors.
     try {
         const validationParams: { [key: string]: boolean } = {
-            validNumber: !_.isNaN(salary),
+            validNumber: !_.isNaN(salary) && parseInt(salary) > 0,
             noWhitespae: !_.isNaN(parseInt(salary))
         }
 
@@ -94,12 +120,11 @@ const validateName = (name: string): boolean => {
     
 };
 
-
-
 export {
     validateName,
     validatePassword,
     validatePlayerNumber,
+    validatePosition,
     validateSalary,
     validateUsername
 }
