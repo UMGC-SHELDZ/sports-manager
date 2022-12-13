@@ -17,6 +17,7 @@ export enum InputFieldTypes {
 };
 
 // Enum for component color
+
 export enum ComponentColor {
     PRIMARY = 'primary',
     SECONDARY = 'secondary',
@@ -25,7 +26,8 @@ export enum ComponentColor {
     WARNING = 'warning',
     INFO = 'info',
     LIGHT = 'light',
-    DARK = 'dark'
+    DARK = 'dark',
+    LINK = 'link'
 }
 
 // Enum for database entity types
@@ -41,7 +43,7 @@ const CurrentViewOptionStrings: { [key: string]: string} = {
     MANAGER: 'Current Manager',
     PLAYER: 'Active Team',
     TEAM: 'Selected Sport',
-    SPORT: 'Teams by Sport',
+    SPORT: 'Sports',
     REGISTRATION: 'Create a Manager Account',
     LOGIN: 'Input Login Information',
     LOGIN_SUCCESS: 'Welcome back'

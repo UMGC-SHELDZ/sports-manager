@@ -114,34 +114,6 @@ function AddSportForm(): ReactElement {
                             onCancel={clearForm}
                             isDisabled={!isValid}
                         />
-                        <FormGroup
-                            check
-                            row
-                        >
-                            <Col
-                                sm={{
-                                    offset: 1,
-                                    size: 10
-                                }}
-                            >
-                                {isLoading
-                                    ?
-                                        <Spinner>
-                                            Processing request...
-                                        </Spinner>
-                                    :
-                                    <>
-                                        <Button color={ComponentColor.PRIMARY} onClick={handleSaveSport} disabled={!isValid}>
-                                            Submit
-                                        </Button>
-                                        &nbsp;
-                                        <Button color={ComponentColor.SECONDARY} onClick={clearForm}>
-                                            Clear Form
-                                        </Button>
-                                    </>
-                                }
-                            </Col>
-                        </FormGroup>
                     </Form>
                 </Col>
             </Row>

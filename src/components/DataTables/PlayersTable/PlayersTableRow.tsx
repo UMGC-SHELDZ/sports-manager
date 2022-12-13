@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ChangeEventHandler, FormEvent, ReactElement, useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, FormEvent, ReactElement, useContext, useEffect, useState } from 'react';
 import * as _ from 'lodash';
 import { AxiosError } from 'axios';
 
@@ -16,22 +16,22 @@ import AddFormOptions from '../AddFormComponents/AddFormOptions';
 
 // Utils
 import { validateName, validatePlayerNumber, validatePosition, validateSalary } from '../../../common/utils/validationUtil';
-import { ComponentColor, EntityTypes } from '../../../common/constants/constants';
+import { ComponentColor, CurrentViewOptions, EntityTypes } from '../../../common/constants/constants';
 import { configureToast } from '../../../common/utils/toastUtil';
 
 // Services
 import playersService from '../../../services/playersService';
 import TableInputText from '../../Forms/TableInputText';
 import TableDropdownInput from '../../Forms/TableDropdownInput';
-import { isEmpty } from 'lodash';
 
 interface IPlayersTableRow {
+    currentViewHandler: Function;
     player: IPlayer;
     setIsToastOpen: Function;
     setToastData: Function;
 }
 
-function PlayersTableRow({ player, setIsToastOpen, setToastData }: IPlayersTableRow): ReactElement {
+function PlayersTableRow({ currentViewHandler, player, setIsToastOpen, setToastData }: IPlayersTableRow): ReactElement {
     // Check authentication
     const isAuthenticated: boolean = useAuthentication();
 
@@ -62,23 +62,20 @@ function PlayersTableRow({ player, setIsToastOpen, setToastData }: IPlayersTable
             !_.isNil(foundTeam) && setTeamName(foundTeam.teamName);
         };
         
-    }, [player]);
+    }, [player, team, teams]);
 
     // Check form validity on team name update
     useEffect(() => {
-        setIsValid(validateForm);
-    }, [firstName, lastName, position, playerNumber, salary]);
-
-    // Helper function for form validation
-    const validateForm = (): boolean => {
-        // Add more validations
-        const validations: { [key: string]: boolean } = {
-            firstName: validateName(firstName),
-            lastName: validateName(lastName),
-            position: validatePosition(position) || _.isEmpty(position),
-            playerNumber: validatePlayerNumber(playerNumber) || _.isEmpty(playerNumber),
-            salary: validateSalary(salary) || _.isEmpty(salary)
-        };
+        // Helper function for form validation
+        const validateForm = (): boolean => {
+            // Add more validations
+            const validations: { [key: string]: boolean } = {
+                firstName: validateName(firstName),
+                lastName: validateName(lastName),
+                position: validatePosition(position) || _.isEmpty(position),
+                playerNumber: validatePlayerNumber(playerNumber) || _.isEmpty(playerNumber),
+                salary: validateSalary(salary) || _.isEmpty(salary)
+            };
 
         // Check for invalid values
         const invalid: Array<boolean> = _.filter(validations, (value, key) => value === false);
@@ -86,6 +83,8 @@ function PlayersTableRow({ player, setIsToastOpen, setToastData }: IPlayersTable
         // If the invalid is an empty array, no validation errors.
         return _.isEmpty(invalid);
     };
+        setIsValid(validateForm);
+    }, [firstName, lastName, position, playerNumber, salary]);
 
     /**
      * Helper function for toggling edit mode.
@@ -230,7 +229,7 @@ function PlayersTableRow({ player, setIsToastOpen, setToastData }: IPlayersTable
         <tr key={player._id}>
             <th scope='row'>
                 <TableInputText 
-                    id={`${player._id}-lastNameInput`}
+                    tooltipId={`${player._id}-lastNameInput`}
                     value={lastName}
                     onChange={handleLastNameChange}
                     valid={validateName(lastName)}
@@ -241,7 +240,7 @@ function PlayersTableRow({ player, setIsToastOpen, setToastData }: IPlayersTable
             </th>
             <td>
                 <TableInputText 
-                    id={`${player._id}-firstNameInput`}
+                    tooltipId={`${player._id}-firstNameInput`}
                     value={firstName}
                     onChange={handleFirstNameChange}
                     valid={validateName(firstName)}
@@ -255,6 +254,8 @@ function PlayersTableRow({ player, setIsToastOpen, setToastData }: IPlayersTable
                     cellText={teamName}
                     entity={EntityTypes.TEAM}
                     id={`${player._id}-teamDropdown`}
+                    currentViewHandler={currentViewHandler}
+                    linkView={CurrentViewOptions.PLAYER}
                     isEditMode={isEditMode}
                     onChange={handleTeamSelect}
                     options={teams}
@@ -263,7 +264,7 @@ function PlayersTableRow({ player, setIsToastOpen, setToastData }: IPlayersTable
             </td>
             <td>
                 <TableInputText 
-                    id={`${player._id}-positionInput`}
+                    tooltipId={`${player._id}-positionInput`}
                     value={position}
                     onChange={handlePositionChange}
                     valid={validatePosition(position) || _.isEmpty(position)}
@@ -274,7 +275,7 @@ function PlayersTableRow({ player, setIsToastOpen, setToastData }: IPlayersTable
             </td>
             <td>
                 <TableInputText 
-                    id={`${player._id}-playerNumberInput`}
+                    tooltipId={`${player._id}-playerNumberInput`}
                     value={playerNumber}
                     onChange={handlePlayerNumberChange}
                     valid={validatePlayerNumber(playerNumber) || _.isEmpty(playerNumber)}
@@ -284,8 +285,8 @@ function PlayersTableRow({ player, setIsToastOpen, setToastData }: IPlayersTable
                 />
             </td>
             <td>
-                <TableInputText 
-                    id={`${player._id}-playerSalaryInput`}
+                <TableInputText
+                    tooltipId={`${player._id}-playerSalaryInput`}
                     value={salary}
                     onChange={handleSalaryChange}
                     valid={validateSalary(salary) || _.isEmpty(salary)}

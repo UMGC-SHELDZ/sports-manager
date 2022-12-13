@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import * as _ from 'lodash';
 import { Row, Table, Toast, ToastBody, ToastHeader } from 'reactstrap';
 
@@ -20,9 +20,10 @@ import { ComponentColor } from '../../../common/constants/constants';
 
 interface ITeamsTableProps {
     teams: Array<ITeam>;
+    currentViewHandler: Function;
 }
 
-function TeamsTable({ teams }: ITeamsTableProps): ReactElement {
+function TeamsTable({ currentViewHandler, teams }: ITeamsTableProps): ReactElement {
     // Check authentication
     const isAuthenticated: boolean = useAuthentication();
 
@@ -46,7 +47,7 @@ function TeamsTable({ teams }: ITeamsTableProps): ReactElement {
             <tbody>
                 {_.map(teams, (team: ITeam) => {
                     return (
-                        <TeamsTableRow team={team} setIsToastOpen={setIsToastOpen} setToastData={setToastData} />
+                        <TeamsTableRow team={team} setIsToastOpen={setIsToastOpen} setToastData={setToastData} currentViewHandler={currentViewHandler}/>
                     )
                 })}
             </tbody>

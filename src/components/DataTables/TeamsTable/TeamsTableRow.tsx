@@ -1,7 +1,6 @@
-import React, { ChangeEvent, ChangeEventHandler, FormEvent, ReactElement, useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, FormEvent, ReactElement, useContext, useEffect, useState } from 'react';
 import * as _ from 'lodash';
 import { AxiosError } from 'axios';
-import { Col, Input, Row, Tooltip } from 'reactstrap';
 
 // Hooks
 import { useAuthentication } from '../../../hooks/useAuthentication';
@@ -20,7 +19,7 @@ import TableDropdownInput from '../../Forms/TableDropdownInput';
 
 // Utils
 import { validateName } from '../../../common/utils/validationUtil';
-import { ComponentColor, EntityTypes, InputFieldTypes } from '../../../common/constants/constants';
+import { ComponentColor, CurrentViewOptions, EntityTypes } from '../../../common/constants/constants';
 import { configureToast } from '../../../common/utils/toastUtil';
 
 // Services
@@ -28,12 +27,13 @@ import teamsService from '../../../services/teamsService';
 import IManager from '../../../common/interfaces/IManager';
 
 interface ITeamsTableRowProps {
+    currentViewHandler: Function;
     team: ITeam;
     setIsToastOpen: Function;
     setToastData: Function;
 }
 
-function TeamsTableRow({ team, setIsToastOpen, setToastData }: ITeamsTableRowProps): ReactElement {
+function TeamsTableRow({ team, setIsToastOpen, setToastData, currentViewHandler }: ITeamsTableRowProps): ReactElement {
     // Check authentication
     const isAuthenticated: boolean = useAuthentication();
 
@@ -55,15 +55,16 @@ function TeamsTableRow({ team, setIsToastOpen, setToastData }: ITeamsTableRowPro
     // Form state
     const [isLoading, setIsLoading] = useState(false);
 
-    // Tooltip state
-    const [tooltipOpen, setTooltipOpen] = useState<boolean>(false);
-
-    // Toggler function
-    const toggle = () => setTooltipOpen(!tooltipOpen);
-
 
     // Sets the number of players, the sport and the manager name when a team is passed into a table row
     useEffect(() => {
+        /**
+         * Helper function to get the number of players by team
+         */
+        const getNumPlayers = (): void => {
+            const numberPlayersInTeam: Array<IPlayer> = _.filter(players, (player) => player.team === team._id);
+            setNumPlayers(_.size(numberPlayersInTeam));
+        }
         getNumPlayers();
         if (!_.isEmpty(sport)) {
             const foundSport: ISport | undefined = _.find(sports, (sportOpt) => sportOpt._id as string === sport);
@@ -75,7 +76,7 @@ function TeamsTableRow({ team, setIsToastOpen, setToastData }: ITeamsTableRowPro
             !_.isNil(foundManager) && setManagerName(`${foundManager.firstName} ${foundManager.lastName}`);
         };
         
-    }, [team]);
+    }, [team, manager, managers, sport, sports, players]);
 
     /**
      * Helper function for toggling edit mode.
@@ -84,14 +85,6 @@ function TeamsTableRow({ team, setIsToastOpen, setToastData }: ITeamsTableRowPro
         setTeamName(team.teamName);
         setIsEditMode(!isEditMode);
     };
-
-    /**
-     * Helper function to get the number of players by team
-     */
-    const getNumPlayers = (): void => {
-        const numberPlayersInTeam: Array<IPlayer> = _.filter(players, (player) => player.team === team._id);
-        setNumPlayers(_.size(numberPlayersInTeam));
-    }
 
     // Handlers for UI actions
     /**
@@ -190,21 +183,26 @@ function TeamsTableRow({ team, setIsToastOpen, setToastData }: ITeamsTableRowPro
         <tr key={team._id}>
             <th scope='row'>
                 <TableInputText
-                    id={`${team._id}-teamNameInput`}
+                    id={team._id as string}
                     invalid={!validateName(teamName)}
                     isEditMode={isEditMode}
                     onChange={handleTeamNameChange}
+                    tooltipId={`${team._id}-teamNameInput`}
                     tooltipText='Team name must be only letters with a length between 2 and 20 characters.'
                     value={teamName}
                     valid={validateName(teamName)}
+                    currentViewHandler={currentViewHandler}
+                    linkView={CurrentViewOptions.PLAYER}
                 />
             </th>
             <td>
                 <TableDropdownInput
                     cellText={sportName}
                     entity={EntityTypes.SPORT}
-                    id={`${team._id}-sportSelect`}
                     isEditMode={isEditMode}
+                    id={`${team._id}-sportSelect`}
+                    currentViewHandler={currentViewHandler}
+                    linkView={CurrentViewOptions.TEAM}
                     onChange={handleSportSelect}
                     options={sports}
                     value={sport}

@@ -27,10 +27,11 @@ import teamsService from '../../services/teamsService';
 
 // State
 import { EntityContext } from '../../providers/EntityProvider';
+import _ from 'lodash';
 
 function ViewManager(): ReactElement {
     // Global State
-    const { sports, teams, players, isAppLoading } = useContext(EntityContext);
+    const { sports, teams, players, managers, isAppLoading } = useContext(EntityContext);
 
       // To update global state for initial data load
     const { dispatch } = useContext(EntityContext);
@@ -40,6 +41,13 @@ function ViewManager(): ReactElement {
 
     // View State
     const [currentView, setCurrentView] = useState<CurrentViewOptions>(CurrentViewOptions.SPORT);
+    const [selectedSport, setSelectedSport] = useState<string | undefined>(undefined);
+    const [selectedSportName, setSelectedSportName] = useState<string | undefined>(undefined);
+    const [fitleredTeamsBySport, setFilteredTeamsBySport] = useState<Array<ITeam> | undefined>(undefined);
+    const [selectedTeam, setSelectedTeam] = useState<string | undefined>(undefined);
+    const [selectedTeamName, setSelectedTeamName] = useState<string | undefined>(undefined);
+    const [selectedTeamManagerName, setSelectedTeamManagerName] = useState<string | undefined>(undefined);
+    const [filteredPlayersByteam, setFilteredPlayersByTeam] = useState<Array<IPlayer> | undefined>(undefined);
 
     // Updates initial state for data, and sets loaded to true so data will not be loaded again
     useEffect(() => {
@@ -65,12 +73,81 @@ function ViewManager(): ReactElement {
             // Set data loaded to true
             setDataLoaded(true);
         })();
-    }, []);
+    });
+
+    // Update selected sport name, when a sport is selected.
+    useEffect(() => {
+        if (!_.isNil(selectedSport)) {
+            const foundSport: ISport | undefined = _.find(sports, (sportOpt) => sportOpt._id as string === selectedSport);
+            if (!_.isNil(foundSport)) {
+                setSelectedSportName(foundSport.sportName)
+
+                // Create an array of teams filtered by sport
+                const filterTeams: Array<ITeam> = _.filter(teams, (team) => team.sport === foundSport._id);
+                setFilteredTeamsBySport(filterTeams);
+                return;
+            }
+        };
+        setSelectedSportName(undefined);
+        setFilteredTeamsBySport(undefined);
+    }, [selectedSport, teams, sports]);
+
+    // Update a team name/manager name if a team is selected
+    useEffect(() => {
+        if (!_.isNil(selectedTeam)) {
+            const foundTeam: ITeam | undefined = _.find(teams, (teamOpt) => teamOpt._id as string === selectedTeam);
+
+            // If team found, set the team then try to find the manager, if manager found try to set the manger, else set both to undefined.
+            if (!_.isNil(foundTeam)) {
+                setSelectedTeamName(foundTeam.teamName);
+
+                // Create an array of players filtered by team
+                const filterPlayers: Array<IPlayer> = _.filter(players, (player) => player.team === foundTeam._id);
+                setFilteredPlayersByTeam(filterPlayers);
+
+                if (!_.isNil(foundTeam.manager) && !_.isEmpty(foundTeam.manager)) {
+                    const foundManager: IManager | undefined = _.find(managers, (managerOpt) => managerOpt._id as string === foundTeam.manager)
+
+                    !_.isNil(foundManager) ? setSelectedTeamManagerName(`${foundManager?.firstName} ${foundManager?.lastName}`) : setSelectedTeamManagerName(undefined);
+                    return;
+                };
+                return;
+            }
+        };
+        setSelectedTeamName(undefined);
+        setSelectedTeamManagerName(undefined);
+        setFilteredPlayersByTeam(undefined);
+    }, [selectedTeam, players, managers, teams])
+
+    /**
+     * Handler for dynamic view setting.
+     * @param {CurrentViewOptions} newView sets the new view.
+     * @param {string} id the id for team or sport.
+     */
+    const handleSetCurrentView = (newView: CurrentViewOptions, id?: string): void => {
+        setCurrentView(newView);
+
+        // If id param, set the sport or team
+        if (!_.isNil(id)) {
+            newView === CurrentViewOptions.TEAM && setSelectedSport(id);
+            newView === CurrentViewOptions.PLAYER && setSelectedTeam(id);
+            return;
+        }
+
+        // Clear sport/manager if no id provided
+        setSelectedSport(undefined);
+        setSelectedTeam(undefined);
+    };
 
     return (
         <>
-            <MainNavbar setCurrentView={setCurrentView} />
-            <HeaderBar curViewOption={currentView} sportName={'Football'} managerName={'Manager Name'} teamName={'Football Team Name'} />
+            <MainNavbar setCurrentView={handleSetCurrentView} />
+            <HeaderBar
+                curViewOption={currentView}
+                sportName={_.isNil(selectedSportName) ? 'No Sport Selected' : selectedSportName}
+                managerName={_.isNil(selectedTeamManagerName) ? 'No Current Manager' : selectedTeamManagerName}
+                teamName={_.isNil(selectedTeamName) ? 'No Team Selected' : selectedTeamName}
+            />
             {isAppLoading &&
                 <Spinner className='mt-5'>
                     Loading data...
@@ -79,13 +156,13 @@ function ViewManager(): ReactElement {
             {!isAppLoading &&
                 <>
                     {currentView === CurrentViewOptions.SPORT &&
-                        <SportsTable sports={sports} />
+                        <SportsTable sports={sports} currentViewHandler={handleSetCurrentView} />
                     }
                     {currentView === CurrentViewOptions.TEAM &&
-                        <TeamsTable teams={teams} />
+                        <TeamsTable teams={_.isNil(fitleredTeamsBySport) ? teams : fitleredTeamsBySport} currentViewHandler={handleSetCurrentView} />
                     }
                     {currentView === CurrentViewOptions.PLAYER &&
-                        <PlayersTable players={players} />
+                        <PlayersTable players={_.isNil(filteredPlayersByteam) ? players : filteredPlayersByteam} currentViewHandler={handleSetCurrentView} />
                     }
                     {currentView === CurrentViewOptions.LOGIN &&
                         <LoginForm setCurrentView={setCurrentView} />
