@@ -22,6 +22,7 @@ import { configureToast } from '../../../common/utils/toastUtil';
 // Services
 import sportsService from '../../../services/sportsService';
 import TableInputText from '../../Forms/TableInputText';
+import teamsService from '../../../services/teamsService';
 
 
 interface ISportsTableRow {
@@ -76,6 +77,33 @@ function SportsTableRow({ currentViewHandler, sport, setIsToastOpen, setToastDat
         setSportName(e.currentTarget.value);
     }
 
+    /**
+     * Unsets the sport from each team that has the sport.
+     */
+        const unsetSportsFromTeams = async (): Promise<void> => {
+            const foundTeams: Array<ITeam> = _.filter(teams, (team) => team.sport === sport._id);
+    
+            // Need to iterate through teams as part of the sport, and remove the team
+            _.forEach(foundTeams, async (team) => {
+                team.sport = undefined;
+    
+                const updateTeamResp: ITeam | AxiosError = await teamsService.update(team, authToken as string);
+    
+                // If there is a server error, let the user know something went wrong with their request.
+                if (updateTeamResp instanceof AxiosError) {
+                    setToastData(configureToast(ComponentColor.DANGER, 'Error', 'Something went wrong with processing your request.'));
+                    setIsToastOpen(true);
+                    return;
+                }
+    
+                // Update team in state
+                dispatch({
+                    type: 'UPDATE_TEAM',
+                    team: updateTeamResp
+                });
+            });
+        };
+
     // Service handlers
 
     /**
@@ -100,6 +128,9 @@ function SportsTableRow({ currentViewHandler, sport, setIsToastOpen, setToastDat
             type: 'DELETE_SPORT',
             sport: sport
         });
+
+        // Remove sports from team
+        await unsetSportsFromTeams();
 
         setIsLoading(false);
     }

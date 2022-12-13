@@ -57,7 +57,7 @@ function PlayersTableRow({ currentViewHandler, player, setIsToastOpen, setToastD
 
     // Sets the number of players, the sport and the manager name when a team is passed into a table row
     useEffect(() => {
-        if (!_.isEmpty(team)) {
+        if (!_.isEmpty(team) && !_.isNil(team)) {
             const foundTeam: ITeam | undefined = _.find(teams, (teamOpt) => teamOpt._id as string === team);
             !_.isNil(foundTeam) && setTeamName(foundTeam.teamName);
         };

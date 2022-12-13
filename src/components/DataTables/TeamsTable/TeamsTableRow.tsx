@@ -25,6 +25,7 @@ import { configureToast } from '../../../common/utils/toastUtil';
 // Services
 import teamsService from '../../../services/teamsService';
 import IManager from '../../../common/interfaces/IManager';
+import playersService from '../../../services/playersService';
 
 interface ITeamsTableRowProps {
     currentViewHandler: Function;
@@ -66,6 +67,7 @@ function TeamsTableRow({ team, setIsToastOpen, setToastData, currentViewHandler 
             setNumPlayers(_.size(numberPlayersInTeam));
         }
         getNumPlayers();
+
         if (!_.isEmpty(sport)) {
             const foundSport: ISport | undefined = _.find(sports, (sportOpt) => sportOpt._id as string === sport);
             !_.isNil(foundSport) && setSportName(foundSport.sportName);
@@ -111,6 +113,33 @@ function TeamsTableRow({ team, setIsToastOpen, setToastData, currentViewHandler 
         setManager(e.currentTarget.value);
     };
 
+    /**
+     * Unsets the team from each player that has the team.
+     */
+    const unsetTeamsFromPlayers = async (): Promise<void> => {
+        const foundPlayers: Array<IPlayer> = _.filter(players, (player) => player.team === team._id);
+
+        // Need to iterate through players as part of the team, and remove the team
+        _.forEach(foundPlayers, async (player) => {
+            player.team = undefined;
+
+            const updatePlayerResp: IPlayer | AxiosError = await playersService.update(player, authToken as string);
+
+            // If there is a server error, let the user know something went wrong with their request.
+            if (updatePlayerResp instanceof AxiosError) {
+                setToastData(configureToast(ComponentColor.DANGER, 'Error', 'Something went wrong with processing your request.'));
+                setIsToastOpen(true);
+                return;
+            }
+
+            // Add player to state
+            dispatch({
+                type: 'UPDATE_PLAYER',
+                player: updatePlayerResp
+            });
+        });
+    };
+
     // Service handlers
 
     /**
@@ -128,13 +157,16 @@ function TeamsTableRow({ team, setIsToastOpen, setToastData, currentViewHandler 
             setIsToastOpen(true);
             setIsLoading(false);
             return;
-        }
+        };
 
         // Add manager to state
         dispatch({
             type: 'DELETE_TEAM',
             team: team
         });
+
+        // Remove teams from players
+        await unsetTeamsFromPlayers()
 
         setIsLoading(false);
     }

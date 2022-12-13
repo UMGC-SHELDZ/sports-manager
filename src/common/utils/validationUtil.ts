@@ -9,6 +9,7 @@ const validatePassword = (password: string): boolean => {
     const validationParams: { [key: string]: boolean } = {
         validLength: _.size(password) > 12,
         hasNumber: /\d/.test(password),
+         // eslint-disable-next-line
         hasCharacter: /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(password)
     };
 

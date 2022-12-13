@@ -49,12 +49,12 @@ function TableDropdownInput({ cellText, currentViewHandler, entity, id, isEditMo
                         </Input>
                     </>
                 }
-                {!isEditMode && _.isNil(currentViewHandler) &&
+                {!isEditMode && (_.isNil(currentViewHandler) || (_.isNil(cellText) || _.isEmpty(cellText))) &&
                     <>
-                        {!_.isEmpty(cellText) ? cellText : `No ${entity}`}
+                        {!_.isEmpty(cellText) && !_.isNil(cellText) ? cellText : `No ${entity}`}
                     </>
                 }
-                 {(!isEditMode && !_.isNil(currentViewHandler)) &&
+                 {(!isEditMode && !_.isNil(currentViewHandler) && !_.isNil(cellText)) &&
                     <Button
                         color={ComponentColor.LINK}
                         onClick={
