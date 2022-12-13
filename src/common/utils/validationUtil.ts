@@ -27,7 +27,7 @@ const validatePassword = (password: string): boolean => {
 const validateName = (name: string): boolean => {
     const validationParams: { [key: string]: boolean } = {
         validLength: _.size(name) > 2 && _.size(name) < 20,
-        lettersOnly: /^[A-Za-z]+$/.test(name)
+        lettersOnly: /^[A-Za-z\s]+$/.test(name)
     }
 
     // Check for invalid values

@@ -1,12 +1,13 @@
 
 import React, { ChangeEvent, FormEvent, ReactElement, useContext, useEffect, useState } from 'react';
 import * as _ from 'lodash';
-import { Button, Col, Form, FormGroup, Row, Spinner, Toast, ToastBody, ToastHeader } from 'reactstrap';
+import { Col, Form, Row, Toast, ToastBody, ToastHeader } from 'reactstrap';
 import { AxiosError } from 'axios';
 
 // Custom Components
 import TextInput from '../../Forms/TextInput';
 import DropdownInput from '../../Forms/DropdownInput';
+import AddFormButtons from '../AddFormComponents/AddFormButtons';
 
 // State
 import { EntityContext } from '../../../providers/EntityProvider';
@@ -24,7 +25,6 @@ import { validateName, validatePlayerNumber, validatePosition, validateSalary } 
 
 // Services
 import playersService from '../../../services/playersService';
-import { isEmpty } from 'lodash';
 
 function AddPlayerForm(): ReactElement {
     // global state
@@ -251,34 +251,12 @@ function AddPlayerForm(): ReactElement {
                             disabled={isLoading}
                             validationText={'Salary must be a numerical whole number above 0.'}
                         />
-                        <FormGroup
-                            check
-                            row
-                        >
-                            <Col
-                                sm={{
-                                    offset: 1,
-                                    size: 10
-                                }}
-                            >
-                                {isLoading
-                                    ?
-                                        <Spinner>
-                                            Processing request...
-                                        </Spinner>
-                                    :
-                                    <>
-                                        <Button color={ComponentColor.PRIMARY} onClick={handleSaveTeam} disabled={!isValid}>
-                                            Submit
-                                        </Button>
-                                        &nbsp;
-                                        <Button color={ComponentColor.SECONDARY} onClick={clearForm}>
-                                            Clear Form
-                                        </Button>
-                                    </>
-                                }
-                            </Col>
-                        </FormGroup>
+                        <AddFormButtons
+                            isLoading={isLoading}
+                            onSubmit={handleSaveTeam}
+                            onCancel={clearForm}
+                            isDisabled={!isValid}
+                        />
                     </Form>
                 </Col>
             </Row>

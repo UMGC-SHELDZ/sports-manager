@@ -220,7 +220,7 @@ function PlayersTableRow({ player, setIsToastOpen, setToastData }: IPlayersTable
         // Add player to state
         dispatch({
             type: 'UPDATE_PLAYER',
-            player: player
+            player: updatePlayerResp
         });
 
         setIsLoading(false);
